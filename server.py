@@ -10,6 +10,7 @@ app.config['MYSQL_PASSWORD'] = 'database'
 app.config['MYSQL_DB'] = 'database'
 
 app.secret_key = 'yoursecretkey '  # TODO to be changed
+#TODO PASSWORD encryption
 
 mysql = MySQL(app)
 
@@ -72,6 +73,7 @@ def login():
             session['loggedin'] = True
             session['userId'] = account[0]
 
+            #implements Remember Me function
             if remember_me:
                 session.permanent = True
 
