@@ -36,10 +36,9 @@ def database_setup():
                 "Cellulare INT(10) NOT NULL,"
                 "Telefono VARCHAR(10), "
                 "Qualifica VARCHAR(50) NOT NULL,"
-                "CodiceZona VARCHAR(10) NOT NULL, "
+                "CodiceZona VARCHAR(10) NOT NULL REFERENCES ZONA(CodiceZona), "
                 "Ruolo VARCHAR(10) NOT NULL, "
-                "Stato VARCHAR(10) NOT NULL, "
-                "FOREIGN KEY (CodiceZona) REFERENCES ZONA(CodiceZona))")
+                "Stato VARCHAR(10) NOT NULL)")
             mysql.connection.commit()
     except Exception as exception:
         print(exception)
@@ -48,10 +47,11 @@ def database_setup():
             cursor = mysql.connection.cursor()
             cursor.execute(
                 "CREATE TABLE IF NOT EXISTS ZONA("
-                "CodiceZona VARCHAR(10) PRIMARY KEY, "
-                "Luogo VARCHAR(50) NOT NULL,"
+                "CodiceZona VARCHAR(10), "
+                "CodiceArea VARCHAR(10) REFERENCES AREA(CodiceArea), "
+                "Luogo VARCHAR(50) NOT NULL, "
                 "MatricolaResponsabile VARCHAR(10) REFERENCES UTENTE(MatricolaResponsabile), "
-                "CodiceArea VARCHAR(10) NOT NULL REFERENCES AREA(CodiceArea) )")
+                "PRIMARY KEY (CodiceZona,CodiceArea))")
             mysql.connection.commit()
     except Exception as exception:
         print(exception)
@@ -67,20 +67,43 @@ def database_setup():
     except Exception as exception:
         print(exception)
 
-    """"
+    try:
+        with app.app_context():
+            cursor = mysql.connection.cursor()
+            cursor.execute(
+                "CREATE TABLE IF NOT EXISTS PARTECIPASQUADRA("
+                "NomeSquadra VARCHAR(10) REFERENCES SQUADRA(NomeSquadra), "
+                "Matricola VARCHAR(10) REFERENCES UTENTE(MatricolaRegionale), "
+                "PRIMARY KEY (NomeSquadra,Matricola))")
+            mysql.connection.commit()
+    except Exception as exception:
+        print(exception)
+
+    try:
+        with app.app_context():
+            cursor = mysql.connection.cursor()
+            cursor.execute(
+                "CREATE TABLE IF NOT EXISTS SQUADRA("
+                "NomeSquadra VARCHAR(10) PRIMARY KEY,"
+                "MatricolaResponsabile VARCHAR(10) REFERENCES UTENTE(MatricolaRegionale))")
+            mysql.connection.commit()
+    except Exception as exception:
+        print(exception)
+
+
     try:
         with app.app_context():
             cursor = mysql.connection.cursor()
             cursor.execute(
                 "INSERT INTO AREA VALUES ('A','SOVERE')")
             cursor.execute(
-                "INSERT INTO ZONA VALUES ('A','SOVERE',NULL,'A')")
+                "INSERT INTO ZONA VALUES ('A','A','SOVERE',NULL)")
             cursor.execute(
                 "INSERT INTO UTENTE VALUES (1,'00000','00000','0','M','V','A','A','00/1/1','AA',035,035,'A','A','MASTER','Attivo')")
             mysql.connection.commit()
     except Exception as exception:
         print(exception)
-    """
+
 
 
 @app.route('/')
