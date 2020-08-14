@@ -9,10 +9,12 @@ app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = 'database'
 app.config['MYSQL_DB'] = 'database'
 
-app.secret_key = 'yoursecretkey '  # TODO to be changed
-#TODO PASSWORD encryption
+app.secret_key = 'yoursecretkey'  # TODO to be changed
+
+# TODO PASSWORD encryption into db
 
 mysql = MySQL(app)
+
 
 # database setup
 def database_setup():
@@ -20,14 +22,24 @@ def database_setup():
         with app.app_context():
             cursor = mysql.connection.cursor()
             cursor.execute(
-                "CREATE TABLE IF NOT EXISTS UTENTI("
-                "id INT(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY, "
-                "Username INT(5) NOT NULL, "
-                "Password VARCHAR(10) NOT NULL, "
+                "CREATE TABLE IF NOT EXISTS UTENTE("
+                "Id INT(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY, "
+                "Username CHAR(5) NOT NULL, "
+                "Password VARCHAR(10) NOT NULL,"
+                "MatricolaRegionale VARCHAR(10) NOT NULL, "
                 "Nome VARCHAR(50) NOT NULL, "
                 "Cognome VARCHAR(50) NOT NULL, "
+                "Residenza VARCHAR(50) NOT NULL, "
+                "Indirizzo VARCHAR(50) NOT NULL, "
+                "DataNascita DATE NOT NULL, "
+                "CF VARCHAR(20) NOT NULL, "
+                "Cellulare INT(10) NOT NULL,"
+                "Telefono VARCHAR(10), "
+                "Qualifica VARCHAR(50) NOT NULL,"
+                "CodiceZona VARCHAR(10) NOT NULL, "
                 "Ruolo VARCHAR(10) NOT NULL, "
-                "Stato VARCHAR(10) NOT NULL)")
+                "Stato VARCHAR(10) NOT NULL, "
+                "FOREIGN KEY (CodiceZona) REFERENCES ZONA(CodiceZona))")
             mysql.connection.commit()
     except Exception as exception:
         print(exception)
@@ -35,10 +47,40 @@ def database_setup():
         with app.app_context():
             cursor = mysql.connection.cursor()
             cursor.execute(
-            "INSERT INTO UTENTI(Username,Password,Nome,Cognome,Ruolo,Stato) VALUES (00000,'00000','Matteo','Verzeroli','Master','Attivo')")
+                "CREATE TABLE IF NOT EXISTS ZONA("
+                "CodiceZona VARCHAR(10) PRIMARY KEY, "
+                "Luogo VARCHAR(50) NOT NULL,"
+                "MatricolaResponsabile VARCHAR(10) REFERENCES UTENTE(MatricolaResponsabile), "
+                "CodiceArea VARCHAR(10) NOT NULL REFERENCES AREA(CodiceArea) )")
             mysql.connection.commit()
     except Exception as exception:
         print(exception)
+
+    try:
+        with app.app_context():
+            cursor = mysql.connection.cursor()
+            cursor.execute(
+                "CREATE TABLE IF NOT EXISTS AREA("
+                "CodiceArea VARCHAR(10) PRIMARY KEY, "
+                "Luogo VARCHAR(50) NOT NULL)")
+            mysql.connection.commit()
+    except Exception as exception:
+        print(exception)
+
+    """"
+    try:
+        with app.app_context():
+            cursor = mysql.connection.cursor()
+            cursor.execute(
+                "INSERT INTO AREA VALUES ('A','SOVERE')")
+            cursor.execute(
+                "INSERT INTO ZONA VALUES ('A','SOVERE',NULL,'A')")
+            cursor.execute(
+                "INSERT INTO UTENTE VALUES (1,'00000','00000','0','M','V','A','A','00/1/1','AA',035,035,'A','A','MASTER','Attivo')")
+            mysql.connection.commit()
+    except Exception as exception:
+        print(exception)
+    """
 
 
 @app.route('/')
@@ -64,29 +106,36 @@ def login():
         remember_me = request.form.get('rememberMe')
 
         cursor = mysql.connection.cursor()
-        cursor.execute('SELECT * FROM UTENTI WHERE username = %s AND password = %s', (username, password))
-        account = cursor.fetchone()
+        cursor.execute('SELECT * FROM UTENTE WHERE username = %s AND password = %s', (username, password))
+        account = cursor.fetchone
 
-        #TODO control if it is an active account
+        #control if the account is an active one
         if account:
-            # Create session data, we can access this data in other routes
-            session['loggedin'] = True
-            session['userId'] = account[0]
+            if str(account[15]) == "Attivo":
+                # Create session data, we can access this data in other routes
+                session['loggedin'] = True
+                session['userId'] = account[0]
 
-            #implements Remember Me function
-            if remember_me:
-                session.permanent = True
+                # implements Remember Me function
+                if remember_me:
+                    session.permanent = True
 
-            # Redirect to home page
-            return redirect(url_for('home'))
+                # Redirect to home page
+                return redirect(url_for('home'))
+            elif str(account[15]) == "Eliminato":
+                flash("Errore! Account eliminato!")
+
+            elif str(account[15]) == "Sospeso":
+                flash("Errore! Account Sospeso!")
 
         else:
-            # Account doesnt exist or username/password incorrect
+            # Account doesn't exist or username/password incorrect
             flash("Incorrect username/password!")
 
     return render_template("login.html")
 
-#database initialization
+
+# database initialization
 database_setup()
 
 if __name__ == '__main__':
