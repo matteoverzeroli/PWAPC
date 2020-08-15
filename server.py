@@ -16,10 +16,18 @@ app.secret_key = 'yoursecretkey'  # TODO to be changed
 mysql = MySQL(app)
 
 @app.route('/')
-def home():
+def index():
     if 'loggedin' in session:
         if session['loggedin'] == True:
             return render_template('index.html')
+    else:
+        return redirect(url_for('login'))
+
+@app.route('/homepage')
+def homepage():
+    if 'loggedin' in session:
+        if session['loggedin'] == True:
+            return render_template('homepage.html')
     else:
         return redirect(url_for('login'))
 
@@ -38,9 +46,8 @@ def login():
         remember_me = request.form.get('rememberMe')
 
         cursor = mysql.connection.cursor()
-        cursor.execute('SELECT * FROM UTENTE WHERE username = %s AND password = %s', (username, password))
-        account = cursor.fetchone
-
+        cursor.execute('SELECT * FROM UTENTE WHERE username = %s AND password = %s', [username, password])
+        account = cursor.fetchone()
         #control if the account is an active one
         if account:
             if str(account[15]) == "Attivo":
@@ -53,7 +60,8 @@ def login():
                     session.permanent = True
 
                 # Redirect to home page
-                return redirect(url_for('home'))
+                return redirect(url_for('index'))
+
             elif str(account[15]) == "Eliminato":
                 flash("Errore! Account eliminato!")
 

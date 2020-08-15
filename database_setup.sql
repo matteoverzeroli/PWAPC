@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS UTENTE(
                 Telefono VARCHAR(10) UNIQUE, 
                 Qualifica VARCHAR(50) NOT NULL,
                 CodiceZona VARCHAR(10) NOT NULL, 
-                Ruolo VARCHAR(10) NOT NULL, 
+                Ruolo VARCHAR(15) NOT NULL, 
                 Stato VARCHAR(10) NOT NULL);
                 
 CREATE TABLE IF NOT EXISTS ZONA(
