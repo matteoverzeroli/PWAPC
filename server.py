@@ -15,97 +15,6 @@ app.secret_key = 'yoursecretkey'  # TODO to be changed
 
 mysql = MySQL(app)
 
-
-# database setup
-def database_setup():
-    try:
-        with app.app_context():
-            cursor = mysql.connection.cursor()
-            cursor.execute(
-                "CREATE TABLE IF NOT EXISTS UTENTE("
-                "Id INT(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY, "
-                "Username CHAR(5) NOT NULL, "
-                "Password VARCHAR(10) NOT NULL,"
-                "MatricolaRegionale VARCHAR(10) NOT NULL, "
-                "Nome VARCHAR(50) NOT NULL, "
-                "Cognome VARCHAR(50) NOT NULL, "
-                "Residenza VARCHAR(50) NOT NULL, "
-                "Indirizzo VARCHAR(50) NOT NULL, "
-                "DataNascita DATE NOT NULL, "
-                "CF VARCHAR(20) NOT NULL, "
-                "Cellulare INT(10) NOT NULL,"
-                "Telefono VARCHAR(10), "
-                "Qualifica VARCHAR(50) NOT NULL,"
-                "CodiceZona VARCHAR(10) NOT NULL REFERENCES ZONA(CodiceZona), "
-                "Ruolo VARCHAR(10) NOT NULL, "
-                "Stato VARCHAR(10) NOT NULL)")
-            mysql.connection.commit()
-    except Exception as exception:
-        print(exception)
-    try:
-        with app.app_context():
-            cursor = mysql.connection.cursor()
-            cursor.execute(
-                "CREATE TABLE IF NOT EXISTS ZONA("
-                "CodiceZona VARCHAR(10), "
-                "CodiceArea VARCHAR(10) REFERENCES AREA(CodiceArea), "
-                "Luogo VARCHAR(50) NOT NULL, "
-                "MatricolaResponsabile VARCHAR(10) REFERENCES UTENTE(MatricolaResponsabile), "
-                "PRIMARY KEY (CodiceZona,CodiceArea))")
-            mysql.connection.commit()
-    except Exception as exception:
-        print(exception)
-
-    try:
-        with app.app_context():
-            cursor = mysql.connection.cursor()
-            cursor.execute(
-                "CREATE TABLE IF NOT EXISTS AREA("
-                "CodiceArea VARCHAR(10) PRIMARY KEY, "
-                "Luogo VARCHAR(50) NOT NULL)")
-            mysql.connection.commit()
-    except Exception as exception:
-        print(exception)
-
-    try:
-        with app.app_context():
-            cursor = mysql.connection.cursor()
-            cursor.execute(
-                "CREATE TABLE IF NOT EXISTS PARTECIPASQUADRA("
-                "NomeSquadra VARCHAR(10) REFERENCES SQUADRA(NomeSquadra), "
-                "Matricola VARCHAR(10) REFERENCES UTENTE(MatricolaRegionale), "
-                "PRIMARY KEY (NomeSquadra,Matricola))")
-            mysql.connection.commit()
-    except Exception as exception:
-        print(exception)
-
-    try:
-        with app.app_context():
-            cursor = mysql.connection.cursor()
-            cursor.execute(
-                "CREATE TABLE IF NOT EXISTS SQUADRA("
-                "NomeSquadra VARCHAR(10) PRIMARY KEY,"
-                "MatricolaResponsabile VARCHAR(10) REFERENCES UTENTE(MatricolaRegionale))")
-            mysql.connection.commit()
-    except Exception as exception:
-        print(exception)
-
-
-    try:
-        with app.app_context():
-            cursor = mysql.connection.cursor()
-            cursor.execute(
-                "INSERT INTO AREA VALUES ('A','SOVERE')")
-            cursor.execute(
-                "INSERT INTO ZONA VALUES ('A','A','SOVERE',NULL)")
-            cursor.execute(
-                "INSERT INTO UTENTE VALUES (1,'00000','00000','0','M','V','A','A','00/1/1','AA',035,035,'A','A','MASTER','Attivo')")
-            mysql.connection.commit()
-    except Exception as exception:
-        print(exception)
-
-
-
 @app.route('/')
 def home():
     if 'loggedin' in session:
@@ -156,10 +65,6 @@ def login():
             flash("Incorrect username/password!")
 
     return render_template("login.html")
-
-
-# database initialization
-database_setup()
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", debug=True)
