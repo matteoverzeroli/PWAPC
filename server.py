@@ -9,7 +9,7 @@ app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = 'database'
 app.config['MYSQL_DB'] = 'database'
 
-app.secret_key = 'yoursecretkey'  # TODO to be changed
+app.secret_key = 'yoursecretkey '  # TODO to be changed
 
 # TODO PASSWORD encryption into db
 
@@ -17,17 +17,21 @@ mysql = MySQL(app)
 
 @app.route('/')
 def index():
-    if 'loggedin' in session:
-        if session['loggedin'] == True:
+    if 'logged_in' in session:
+        if session['logged_in'] == True:
             return render_template('index.html')
     else:
         return redirect(url_for('login'))
 
 @app.route('/homepage')
 def homepage():
-    if 'loggedin' in session:
-        if session['loggedin'] == True:
-            return render_template('homepage.html')
+    if 'logged_in' in session:
+        if session['logged_in'] == True:
+            cursor = mysql.connection.cursor()
+            cursor.execute('SELECT Nome,Cognome FROM UTENTE WHERE id = %s', [session['user_id']])
+            user = cursor.fetchone()
+            print(user)
+            return render_template('homepage.html',user_name = user[0],user_surname = user[1])
     else:
         return redirect(url_for('login'))
 
@@ -52,8 +56,8 @@ def login():
         if account:
             if str(account[15]) == "Attivo":
                 # Create session data, we can access this data in other routes
-                session['loggedin'] = True
-                session['userId'] = account[0]
+                session['logged_in'] = True
+                session['user_id'] = account[0]
 
                 # implements Remember Me function
                 if remember_me:

@@ -22,7 +22,7 @@
 </head>
 <body id="page-top">
 <!-- Navigation-->
-<nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
     <div class="container">
         <a class="navbar-brand js-scroll-trigger" href="#page-top"><img
                 src="{{ url_for('static', filename='assets/img/navbar-logo.jpg') }}" alt=""/></a>
@@ -62,7 +62,7 @@
                             <i class="fas fa-circle fa-stack-2x text-primary"></i>
                             <i class="fas fa-address-card fa-stack-1x fa-inverse"></i>
                         </span>
-                <h4 class="my-3">xxxx</h4>
+                <h4 class="my-3">{{user_name}} &nbsp; {{user_surname}}</h4>
                 <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam
                     architecto quo inventore harum ex magni, dicta impedit.</p>
             </div>
@@ -77,13 +77,14 @@
             <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>
         </div>
         <div class="row">
-            <div class="col-lg-4 col-sm-6 mb-4">
+            <div class="col-lg-4 col-sm-6 mb-4 mx-auto">
                 <div class="portfolio-item">
                     <a class="portfolio-link" data-toggle="modal" href="#portfolioModal1">
                         <div class="portfolio-hover">
                             <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
                         </div>
-                        <img class="img-fluid" src="{{ url_for('static', filename='assets/img/portfolio/01-thumbnail.jpg') }}" alt=""/>
+                        <img class="img-fluid"
+                             src="{{ url_for('static', filename='assets/img/portfolio/01-thumbnail.png') }}" alt=""/>
                     </a>
                     <div class="portfolio-caption">
                         <div class="portfolio-caption-heading">Modifica dati utente</div>
@@ -100,52 +101,56 @@
         <div class="text-center">
             <h2 class="section-heading text-uppercase">Eventi</h2>
             <h3 class="section-subheading text-muted">Controlla i tuoi eventi!</h3>
-            <iframe src="https://calendar.google.com/calendar/embed?height=600&amp;wkst=1&amp;bgcolor=%23ffffff&amp;ctz=Europe%2FAmsterdam&amp;src=bWF0dGVvdmVyemVyb2xpMThAZ21haWwuY29t&amp;src=YWRkcmVzc2Jvb2sjY29udGFjdHNAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&amp;src=aXQuaXRhbGlhbiNob2xpZGF5QGdyb3VwLnYuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&amp;color=%23039BE5&amp;color=%237986CB&amp;color=%237986CB" style="border:solid 1px #777" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+
+            <iframe src="https://calendar.google.com/calendar/embed?height=600&amp;wkst=1&amp;bgcolor=%23ffffff&amp;ctz=Europe%2FAmsterdam&amp;src=bWF0dGVvdmVyemVyb2xpMThAZ21haWwuY29t&amp;src=YWRkcmVzc2Jvb2sjY29udGFjdHNAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&amp;src=aXQuaXRhbGlhbiNob2xpZGF5QGdyb3VwLnYuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&amp;color=%23039BE5&amp;color=%237986CB&amp;color=%237986CB"
+                    style="border:solid 1px #777" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+
         </div>
-        <ul class="timeline">
+    </div>
+    <ul class="timeline">
 
-            <li>
-                <div class="timeline-image"><img class="rounded-circle img-fluid"
-                                                 src="{{ url_for('static', filename='assets/img/events/tick.svg')}}"
-                                                 alt=""/>
+        <li>
+            <div class="timeline-image"><img class="rounded-circle img-fluid"
+                                             src="{{ url_for('static', filename='assets/img/events/tick.svg')}}"
+                                             alt=""/>
+            </div>
+            <div class="timeline-panel">
+                <div class="timeline-heading">
+                    <h4>2009-2011</h4>
+                    <h4 class="subheading">Our Humble Beginnings</h4>
                 </div>
-                <div class="timeline-panel">
-                    <div class="timeline-heading">
-                        <h4>2009-2011</h4>
-                        <h4 class="subheading">Our Humble Beginnings</h4>
-                    </div>
-                    <div class="timeline-body"><p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing
-                        elit. Sunt ut voluptatum eius sapiente, totam reiciendis temporibus qui quibusdam, recusandae
-                        sit vero unde, sed, incidunt et ea quo dolore laudantium consectetur!</p></div>
+                <div class="timeline-body"><p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing
+                    elit. Sunt ut voluptatum eius sapiente, totam reiciendis temporibus qui quibusdam, recusandae
+                    sit vero unde, sed, incidunt et ea quo dolore laudantium consectetur!</p></div>
+            </div>
+        </li>
+        <li class="timeline-inverted">
+            <div class="timeline-image"><img class="rounded-circle img-fluid" src="assets/img/about/2.jpg" alt=""/>
+            </div>
+            <div class="timeline-panel">
+                <div class="timeline-heading">
+                    <h4>March 2011</h4>
+                    <h4 class="subheading">An Agency is Born</h4>
                 </div>
-            </li>
-            <li class="timeline-inverted">
-                <div class="timeline-image"><img class="rounded-circle img-fluid" src="assets/img/about/2.jpg" alt=""/>
+                <div class="timeline-body"><p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing
+                    elit. Sunt ut voluptatum eius sapiente, totam reiciendis temporibus qui quibusdam, recusandae
+                    sit vero unde, sed, incidunt et ea quo dolore laudantium consectetur!</p>
                 </div>
-                <div class="timeline-panel">
-                    <div class="timeline-heading">
-                        <h4>March 2011</h4>
-                        <h4 class="subheading">An Agency is Born</h4>
-                    </div>
-                    <div class="timeline-body"><p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing
-                        elit. Sunt ut voluptatum eius sapiente, totam reiciendis temporibus qui quibusdam, recusandae
-                        sit vero unde, sed, incidunt et ea quo dolore laudantium consectetur!</p>
-                    </div>
-                </div>
-            </li>
+            </div>
+        </li>
 
-            <li class="timeline-inverted">
-                <div class="timeline-image">
-                    <h4>
-                        Be Part
-                        <br/>
-                        Of Our
-                        <br/>
-                        Story!
-                    </h4>
-                </div>
-            </li>
-        </ul>
+        <li class="timeline-inverted">
+            <div class="timeline-image">
+                <h4>
+                    Be Part
+                    <br/>
+                    Of Our
+                    <br/>
+                    Story!
+                </h4>
+            </div>
+        </li>
+    </ul>
     </div>
 </section>
 <!-- Footer-->
@@ -170,7 +175,8 @@
 <div class="portfolio-modal modal fade" id="portfolioModal1" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="close-modal" data-dismiss="modal"><img src="{{ url_for('static', filename='assets/img/close-icon.svg') }}" alt="Close modal"/></div>
+            <div class="close-modal" data-dismiss="modal"><img
+                    src="{{ url_for('static', filename='assets/img/close-icon.svg') }}" alt="Close modal"/></div>
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-8">
@@ -178,12 +184,19 @@
                             <!-- Project Details Go Here-->
                             <h2 class="text-uppercase">Dati utente</h2>
                             <p class="item-intro text-muted">Modifica dati utente</p>
-                            <img class="img-fluid d-block mx-auto" src="{{ url_for('static', filename='assets/img/portfolio/01-full.jpg') }}" alt=""/>
-                            <p>mettere form e immagine</p>
-                            <ul class="list-inline">
+                            <div class="col-3 mx-auto">
+                                <img class="img-fluid d-block mx-auto"
+                                     src="{{ url_for('static', filename='assets/img/portfolio/01-full.png') }}" alt=""/>
+                            </div>
+
+                            <ul class="list-unstyled">
                                 <li>Date: January 2020</li>
                                 <li>Client: Threads</li>
                                 <li>Category: Illustration</li>
+                                <div class="form-group">
+                                    <label for="email">Email address:</label>
+                                    <input type="email" class="form-control" id="email">
+                                </div>
                             </ul>
                             <button class="btn btn-primary" data-dismiss="modal" type="button">
                                 <i class="fas fa-times mr-1"></i>

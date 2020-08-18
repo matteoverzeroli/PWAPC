@@ -10745,12 +10745,12 @@ header.masthead {
     padding-top: 10.5rem;
     padding-bottom: 6rem;
     text-align: center;
-    color: #fff;
-    background-image: url("../assets/img/header-bg.jpg");
+    color: #000000;
+    background-image: url("../assets/img/header-bg.svg");
     background-repeat: no-repeat;
     background-attachment: scroll;
-    background-position: center center;
-    background-size: cover;
+    background-position: center;
+    background-size: auto;
 }
 
 header.masthead .masthead-subheading {
