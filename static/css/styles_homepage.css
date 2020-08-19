@@ -10600,6 +10600,11 @@ p {
     padding: 6rem 0;
 }
 
+.page-section-first{
+    padding-top: 7rem ;
+    padding-bottom: 0rem;
+}
+
 .page-section h2.section-heading {
     font-size: 2.5rem;
     margin-top: 0;
@@ -10684,7 +10689,7 @@ img::-moz-selection {
 }
 
 #mainNav .navbar-brand img {
-    height: 1.5rem;
+    height: 3rem;
 }
 
 #mainNav .navbar-nav .nav-item .nav-link {
@@ -10713,7 +10718,7 @@ img::-moz-selection {
     }
 
     #mainNav .navbar-brand img {
-        height: 2rem;
+        height: 3rem;
         transition: height 0.3s ease-in-out;
     }
 
@@ -10729,7 +10734,7 @@ img::-moz-selection {
 
     #mainNav.navbar-shrink .navbar-brand svg,
     #mainNav.navbar-shrink .navbar-brand img {
-        height: 1.5rem;
+        height: 3rem;
     }
 
     #mainNav .navbar-nav .nav-item {

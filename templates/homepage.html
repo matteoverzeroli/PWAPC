@@ -26,6 +26,11 @@
     <div class="container">
         <a class="navbar-brand js-scroll-trigger" href="#page-top"><img
                 src="{{ url_for('static', filename='assets/img/navbar-logo.jpg') }}" alt=""/></a>
+        <span class="navbar-text">
+            <h5>{{user_name}} &nbsp; {{user_surname}} <br> {{user_role}}</h5>
+            </span>
+
+
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
                 data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -34,37 +39,22 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav text-uppercase ml-auto">
-                <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#datiutente">Dati Utente</a></li>
+                <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#zona">Zona</a></li>
+                <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#">Modifica dati utente</a></li>
+                <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#squadra">Squadra</a></li>
                 <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#calendario">Calendario</a></li>
             </ul>
         </div>
     </div>
 </nav>
-<!-- Masthead-->
-<header class="masthead">
-    <div class="container">
-        <div class="masthead-subheading">Benvenuto!!!</div>
-        <div class="masthead-heading text-uppercase">PWAPC</div>
-        <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="#calendario">Controlla i tuoi
-            eventi!</a>
-    </div>
-</header>
+<div class="container"></div>
+
 <!-- Services-->
-<section class="page-section" id="datiutente">
+<section class="page-section-first" id="zona">
     <div class="container">
-        <div class="text-center">
-            <h2 class="section-heading text-uppercase">Dati Utente</h2>
-            <h3 class="section-subheading text-muted">*************</h3>
-        </div>
-        <div class="row text-center">
+        <div class="row text-center ">
             <div class="col-md-12">
-                        <span class="fa-stack fa-4x">
-                            <i class="fas fa-circle fa-stack-2x text-primary"></i>
-                            <i class="fas fa-address-card fa-stack-1x fa-inverse"></i>
-                        </span>
-                <h4 class="my-3">{{user_name}} &nbsp; {{user_surname}}</h4>
-                <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam
-                    architecto quo inventore harum ex magni, dicta impedit.</p>
+                <h1 class="my-3 te">Zona: {{user_zone}} </h1>
             </div>
         </div>
     </div>
@@ -73,13 +63,13 @@
 <section class="page-section bg-light" id="portfolio">
     <div class="container">
         <div class="text-center">
-            <h2 class="section-heading text-uppercase">Portfolio</h2>
+            <h2 class="section-heading text-uppercase">Squadra</h2>
             <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>
         </div>
         <div class="row">
             <div class="col-lg-4 col-sm-6 mb-4 mx-auto">
                 <div class="portfolio-item">
-                    <a class="portfolio-link" data-toggle="modal" href="#portfolioModal1">
+                    <a class="portfolio-link" data-toggle="modal" href="#squdra">
                         <div class="portfolio-hover">
                             <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
                         </div>
@@ -87,8 +77,8 @@
                              src="{{ url_for('static', filename='assets/img/portfolio/01-thumbnail.png') }}" alt=""/>
                     </a>
                     <div class="portfolio-caption">
-                        <div class="portfolio-caption-heading">Modifica dati utente</div>
-                        <div class="portfolio-caption-subheading text-muted">Illustration</div>
+                        <div class="portfolio-caption-heading">Squadra</div>
+                        <div class="portfolio-caption-subheading text-muted">Dati squadra</div>
                     </div>
                 </div>
             </div>
@@ -99,58 +89,11 @@
 <section class="page-section" id="calendario">
     <div class="container">
         <div class="text-center">
-            <h2 class="section-heading text-uppercase">Eventi</h2>
+            <h2 class="section-heading text-uppercase">Calendario</h2>
             <h3 class="section-subheading text-muted">Controlla i tuoi eventi!</h3>
-
             <iframe src="https://calendar.google.com/calendar/embed?height=600&amp;wkst=1&amp;bgcolor=%23ffffff&amp;ctz=Europe%2FAmsterdam&amp;src=bWF0dGVvdmVyemVyb2xpMThAZ21haWwuY29t&amp;src=YWRkcmVzc2Jvb2sjY29udGFjdHNAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&amp;src=aXQuaXRhbGlhbiNob2xpZGF5QGdyb3VwLnYuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&amp;color=%23039BE5&amp;color=%237986CB&amp;color=%237986CB"
                     style="border:solid 1px #777" width="800" height="600" frameborder="0" scrolling="no"></iframe>
-
         </div>
-    </div>
-    <ul class="timeline">
-
-        <li>
-            <div class="timeline-image"><img class="rounded-circle img-fluid"
-                                             src="{{ url_for('static', filename='assets/img/events/tick.svg')}}"
-                                             alt=""/>
-            </div>
-            <div class="timeline-panel">
-                <div class="timeline-heading">
-                    <h4>2009-2011</h4>
-                    <h4 class="subheading">Our Humble Beginnings</h4>
-                </div>
-                <div class="timeline-body"><p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing
-                    elit. Sunt ut voluptatum eius sapiente, totam reiciendis temporibus qui quibusdam, recusandae
-                    sit vero unde, sed, incidunt et ea quo dolore laudantium consectetur!</p></div>
-            </div>
-        </li>
-        <li class="timeline-inverted">
-            <div class="timeline-image"><img class="rounded-circle img-fluid" src="assets/img/about/2.jpg" alt=""/>
-            </div>
-            <div class="timeline-panel">
-                <div class="timeline-heading">
-                    <h4>March 2011</h4>
-                    <h4 class="subheading">An Agency is Born</h4>
-                </div>
-                <div class="timeline-body"><p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing
-                    elit. Sunt ut voluptatum eius sapiente, totam reiciendis temporibus qui quibusdam, recusandae
-                    sit vero unde, sed, incidunt et ea quo dolore laudantium consectetur!</p>
-                </div>
-            </div>
-        </li>
-
-        <li class="timeline-inverted">
-            <div class="timeline-image">
-                <h4>
-                    Be Part
-                    <br/>
-                    Of Our
-                    <br/>
-                    Story!
-                </h4>
-            </div>
-        </li>
-    </ul>
     </div>
 </section>
 <!-- Footer-->
@@ -172,7 +115,7 @@
 </footer>
 <!-- Portfolio Modals-->
 <!-- Modal 1-->
-<div class="portfolio-modal modal fade" id="portfolioModal1" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="portfolio-modal modal fade" id="squadra" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="close-modal" data-dismiss="modal"><img

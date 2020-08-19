@@ -28,10 +28,11 @@ def homepage():
     if 'logged_in' in session:
         if session['logged_in'] == True:
             cursor = mysql.connection.cursor()
-            cursor.execute('SELECT Nome,Cognome FROM UTENTE WHERE id = %s', [session['user_id']])
+            cursor.execute('SELECT Nome,Cognome,Ruolo,CodiceZona FROM UTENTE WHERE id = %s', [session['user_id']])
             user = cursor.fetchone()
-            print(user)
-            return render_template('homepage.html',user_name = user[0],user_surname = user[1])
+            cursor.execute('SELECT Nome FROM ZONA WHERE CodiceZona = %s', [user[3]])
+            zone = cursor.fetchone()
+            return render_template('homepage.html',user_name = user[0],user_surname = user[1], user_role = user[2], user_zone = str(zone[0]).upper())
     else:
         return redirect(url_for('login'))
 
@@ -50,11 +51,11 @@ def login():
         remember_me = request.form.get('rememberMe')
 
         cursor = mysql.connection.cursor()
-        cursor.execute('SELECT * FROM UTENTE WHERE username = %s AND password = %s', [username, password])
+        cursor.execute('SELECT Id,Stato FROM UTENTE WHERE username = %s AND password = %s', [username, password])
         account = cursor.fetchone()
         #control if the account is an active one
         if account:
-            if str(account[15]) == "Attivo":
+            if str(account[1]) == "Attivo":
                 # Create session data, we can access this data in other routes
                 session['logged_in'] = True
                 session['user_id'] = account[0]
@@ -66,10 +67,10 @@ def login():
                 # Redirect to home page
                 return redirect(url_for('index'))
 
-            elif str(account[15]) == "Eliminato":
+            elif str(account[1]) == "Eliminato":
                 flash("Errore! Account eliminato!")
 
-            elif str(account[15]) == "Sospeso":
+            elif str(account[1]) == "Sospeso":
                 flash("Errore! Account Sospeso!")
 
         else:
