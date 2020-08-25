@@ -14,7 +14,8 @@ CREATE TABLE IF NOT EXISTS UTENTE(
                 Telefono VARCHAR(10) UNIQUE, 
                 Email VARCHAR(50) NOT NULL UNIQUE,
                 Qualifica VARCHAR(50) NOT NULL,
-                CodiceZona VARCHAR(10) NOT NULL, 
+                CodiceZona VARCHAR(10) NOT NULL,
+                NomeSquadra VARCHAR(10) DEFAULT NULL,
                 Ruolo VARCHAR(15) NOT NULL, 
                 Stato VARCHAR(10) NOT NULL);
                 
@@ -29,19 +30,14 @@ CREATE TABLE IF NOT EXISTS AREA(
                 CodiceArea VARCHAR(10) PRIMARY KEY, 
                 Luogo VARCHAR(50) NOT NULL UNIQUE);
                 
-CREATE TABLE IF NOT EXISTS PARTECIPASQUADRA(
-                NomeSquadra VARCHAR(10), 
-                Id INT, 
-                PRIMARY KEY (NomeSquadra,Id));   
 CREATE TABLE IF NOT EXISTS SQUADRA(
                 NomeSquadra VARCHAR(10) PRIMARY KEY,
 				IdResponsabile INT);
 
 ALTER TABLE UTENTE ADD FOREIGN KEY (CodiceZona) REFERENCES ZONA(CodiceZona);
+ALTER TABLE UTENTE ADD FOREIGN KEY (NomeSquadra) REFERENCES SQUADRA(NomeSquadra);
 ALTER TABLE ZONA ADD FOREIGN KEY (CodiceArea) REFERENCES AREA(CodiceArea);
 ALTER TABLE ZONA ADD FOREIGN KEY (IdResponsabile) REFERENCES UTENTE(Id);
-ALTER TABLE PARTECIPASQUADRA ADD FOREIGN KEY (NomeSquadra) REFERENCES SQUADRA(NomeSquadra);
-ALTER TABLE PARTECIPASQUADRA ADD FOREIGN KEY (Id) REFERENCES UTENTE(Id);
 ALTER TABLE SQUADRA ADD FOREIGN KEY (IdResponsabile) REFERENCES UTENTE(Id);
 
 

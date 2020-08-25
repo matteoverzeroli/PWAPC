@@ -30,13 +30,27 @@ def homepage():
     if 'logged_in' in session:
         if session['logged_in'] == True:
             cursor = mysql.connection.cursor()
-            cursor.execute('SELECT Nome,Cognome,Ruolo,CodiceZona FROM UTENTE WHERE id = %s', [session['user_id']])
+            cursor.execute('SELECT Nome,Cognome,Ruolo,CodiceZona,NomeSquadra FROM UTENTE WHERE id = %s',
+                           [session['user_id']])
             user = cursor.fetchone()
             cursor.execute('SELECT Nome FROM ZONA WHERE CodiceZona = %s', [user[3]])
             zone = cursor.fetchone()
+
+            if user[4]:
+                team_state = "active"
+                cursor.execute('SELECT IdResponsabile FROM SQUADRA WHERE NomeSquadra = %s', [user[4]])
+                id_team_master = cursor.fetchone()
+                cursor.execute('SELECT Nome,Cognome FROM UTENTE WHERE id = %s',
+                               [id_team_master])
+                team_master = cursor.fetchone()
+                team_master = str(team_master[0]) + " " + str(team_master[1])
+            else:
+                team_state = "inactive"
             return render_template('homepage.html', user_name=user[0], user_surname=user[1], user_role=user[2],
-                                   user_zone=str(zone[0]).upper(), contact_number='035035035',
-                                   contact_whatsapp='3934075804570',contact_telegram='matteoverzeroli',contact_email='matteoverzeroli@live.it')
+                                   user_zone=str(zone[0]).upper(), team_name=user[4], team_state=team_state,
+                                   team_master=team_master, contact_telephone='035035035',
+                                   contact_whatsapp='3934075804570', contact_telegram='matteoverzeroli',
+                                   contact_email='matteoverzeroli@live.it')
     else:
         return redirect(url_for('login'))
 
