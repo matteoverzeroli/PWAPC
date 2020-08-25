@@ -28,9 +28,7 @@
                 src="{{ url_for('static', filename='assets/img/navbar-logo.jpg') }}" alt=""/></a>
         <span class="navbar-text">
             <h5>{{user_name}} &nbsp; {{user_surname}} <br> {{user_role}}</h5>
-            </span>
-
-
+        </span>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
                 data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -47,8 +45,23 @@
         </div>
     </div>
 </nav>
-<div class="container"></div>
 
+<nav class="navbar navbar-dark bg-dark fixed-bottom" id="bottomNav">
+    <div class="container">
+        <ul class="navbar-nav flex-row mx-auto">
+            <a class="nav-item btn-lg btn-dark btn-social" href="tel:{{contact_telephone}}"><i
+                    class="fas fa-phone-alt"></i></a>
+            <a class="nav-item btn-lg btn-dark btn-social" href="https://wa.me/{{contact_whatsapp}}"><i
+                    class="fab fa-whatsapp"></i></a>
+            <a class="nav-item btn-lg btn-dark btn-social" href=" https://telegram.me/{{contact_telegram}}"><i
+                    class="fab fa-telegram"></i></a>
+            <a class="nav-item btn-lg btn-dark btn-social" href="mailto:{{contact_email}}"><i
+                    class="fas fa-at"></i></a>
+
+        </ul>
+
+    </div>
+</nav>
 <!-- Services-->
 <section class="page-section-first" id="zona">
     <div class="container">
@@ -60,26 +73,21 @@
     </div>
 </section>
 <!-- Portfolio Grid-->
-<section class="page-section bg-light" id="portfolio">
+<section class="page-section bg-light" id="squadra">
     <div class="container">
         <div class="text-center">
             <h2 class="section-heading text-uppercase">Squadra</h2>
-            <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>
+            <h3 class="section-subheading text-muted">Nome squadra: {{team_name}}</h3>
+            <h3 class="section-subheading text-muted">Stato: {{team_state}}</h3>
         </div>
         <div class="row">
             <div class="col-lg-4 col-sm-6 mb-4 mx-auto">
                 <div class="portfolio-item">
-                    <a class="portfolio-link" data-toggle="modal" href="#squdra">
+                    <a class="portfolio-link" data-toggle="modal" href="#modal1">
                         <div class="portfolio-hover">
-                            <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
+                            <div class="btn-xl btn-dark text-center text-uppercase">vedi dettagli squadra</div>
                         </div>
-                        <img class="img-fluid"
-                             src="{{ url_for('static', filename='assets/img/portfolio/01-thumbnail.png') }}" alt=""/>
                     </a>
-                    <div class="portfolio-caption">
-                        <div class="portfolio-caption-heading">Squadra</div>
-                        <div class="portfolio-caption-subheading text-muted">Dati squadra</div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -123,7 +131,7 @@
 </footer>
 <!-- Portfolio Modals-->
 <!-- Modal 1-->
-<div class="portfolio-modal modal fade" id="squadra" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="portfolio-modal modal fade" id="modal1" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="close-modal" data-dismiss="modal"><img

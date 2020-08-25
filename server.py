@@ -15,6 +15,7 @@ app.secret_key = 'yoursecretkey '  # TODO to be changed
 
 mysql = MySQL(app)
 
+
 @app.route('/')
 def index():
     if 'logged_in' in session:
@@ -22,6 +23,7 @@ def index():
             return render_template('index.html')
     else:
         return redirect(url_for('login'))
+
 
 @app.route('/homepage')
 def homepage():
@@ -32,7 +34,9 @@ def homepage():
             user = cursor.fetchone()
             cursor.execute('SELECT Nome FROM ZONA WHERE CodiceZona = %s', [user[3]])
             zone = cursor.fetchone()
-            return render_template('homepage.html',user_name = user[0],user_surname = user[1], user_role = user[2], user_zone = str(zone[0]).upper())
+            return render_template('homepage.html', user_name=user[0], user_surname=user[1], user_role=user[2],
+                                   user_zone=str(zone[0]).upper(), contact_number='035035035',
+                                   contact_whatsapp='3934075804570',contact_telegram='matteoverzeroli',contact_email='matteoverzeroli@live.it')
     else:
         return redirect(url_for('login'))
 
@@ -53,7 +57,7 @@ def login():
         cursor = mysql.connection.cursor()
         cursor.execute('SELECT Id,Stato FROM UTENTE WHERE username = %s AND password = %s', [username, password])
         account = cursor.fetchone()
-        #control if the account is an active one
+        # control if the account is an active one
         if account:
             if str(account[1]) == "Attivo":
                 # Create session data, we can access this data in other routes
@@ -78,6 +82,7 @@ def login():
             flash("Incorrect username/password!")
 
     return render_template("login.html")
+
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", debug=True)
