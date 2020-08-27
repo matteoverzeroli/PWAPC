@@ -49,10 +49,10 @@
 
 <nav class="navbar navbar-dark bg-dark fixed-bottom" id="bottomNav">
     <div class="container">
-        <div class="navbar-text mx-auto">
-            Contatti!
+        <div class="navbar-text mx-0">
+            Contatta il tuo responsabile di squadra!
         </div>
-        <ul class="navbar-nav flex-row mx-auto">
+        <ul class="navbar-nav flex-row mx-0">
             <a class="nav-item btn-lg btn-dark btn-social" href="tel:{{contact_telephone}}"><i
                     class="fas fa-phone-alt"></i></a>
             <a class="nav-item btn-lg btn-dark btn-social" href="https://wa.me/{{contact_whatsapp}}"><i
@@ -214,14 +214,19 @@
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <label for="user_mobilephone">Cellulare</label>
-                                        <input type="tel" class="form-control text-uppercase" id="user_mobilephone"
-                                               name="user_mobilephone" value="{{user_mobilephone}}" required>
+                                        <label for="user_mobile_phone">Cellulare</label>
+                                        <input type="tel" class="form-control text-uppercase" id="user_mobile_phone"
+                                               name="user_mobile_phone" value="{{user_mobile_phone}}" required>
                                     </div>
                                     <div class="form-group">
                                         <label for="user_telephone">Telefono</label>
                                         <input type="tel" class="form-control text-uppercase" id="user_telephone"
                                                name="user_telephone" value="{{user_telephone}}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="user_telegram_account">Telegram Account</label>
+                                        <input type="tel" class="form-control text-uppercase" id="user_telegram_account"
+                                               name="user_telegram_account" value="{{user_telegram_account}}">
                                     </div>
                                     <div class="form-group">
                                         <label for="user_email">Email</label>

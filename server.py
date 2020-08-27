@@ -30,34 +30,67 @@ def homepage():
     if 'logged_in' in session:
         if session['logged_in'] == True:
             cursor = mysql.connection.cursor()
-            cursor.execute("SELECT Nome,Cognome,Ruolo,CodiceZona FROM UTENTE WHERE id = %s",
-                           [session['user_id']])
+            cursor.execute(
+                "SELECT Username,MatricolaRegionale,Nome,Cognome,Residenza,Indirizzo,DataNascita,CF,Sesso,Cellulare,Telefono,TelegramUsername,Email,Qualifica,CodiceZona,Ruolo,Stato FROM UTENTE WHERE id = %s",
+                [session['user_id']])
             user = cursor.fetchone()
-            cursor.execute("SELECT Nome FROM ZONA WHERE CodiceZona = %s", [user[3]])
+            user_data = {
+                'username': user[0],
+                'regional_id': user[1],
+                'name': user[2],
+                'surname': user[3],
+                'residency': user[4],
+                'address': user[5],
+                'birthday': user[6],
+                'CF': user[7],
+                'sex': user[8],
+                'mobile_phone': user[9],
+                'telephone': user[10],
+                'telegram_username': user[11],
+                'email': user[12],
+                'qualification': user[13],
+                'zone': user[14],
+                'role': user[15],
+                'state': user[16]
+            }
+            cursor.execute("SELECT Nome FROM ZONA WHERE CodiceZona = %s", [user_data['zone']])
             zone = cursor.fetchone()
             cursor.execute(
-                "SELECT S.NomeSquadra,S.Stato,U.Nome,U.Cognome FROM SQUADRA AS S JOIN PARTECIPASQUADRA AS P ON S.Id = P.IdSquadra "
-                "JOIN UTENTE U ON S.IdResponsabile = U.Id WHERE (S.Stato = 'A' OR S.Stato = 'I' ) AND P.IdUtente = %s",[session['user_id']])
+                "SELECT S.NomeSquadra,S.Stato,U.Nome,U.Cognome,U.Cellulare,U.TelegramUsername,U.Email FROM SQUADRA AS S JOIN PARTECIPASQUADRA AS P ON S.Id = P.IdSquadra "
+                "JOIN UTENTE U ON S.IdResponsabile = U.Id WHERE (S.Stato = 'A' OR S.Stato = 'I' ) AND P.IdUtente = %s",
+                [session['user_id']])
             squadra = cursor.fetchone()
             if squadra:
                 team_state = get_team_state(squadra[1])
                 team_master = str(squadra[2]) + " " + str(squadra[3])
+                team_name = squadra[0]
+                contact_telephone = squadra[4]
+                contact_whatsapp = squadra[4]
+                contact_telegram = squadra[5]
+                contact_email = squadra[6]
             else:
-                team_state = "inactive"
-            return render_template('homepage.html', user_name=user[0], user_surname=user[1], user_role=user[2],
-                                   user_zone=str(zone[0]).upper(), team_name=squadra[0], team_state=team_state,
-                                   team_master=team_master, contact_telephone='035035035',
-                                   contact_whatsapp='3934075804570', contact_telegram='matteoverzeroli',
-                                   contact_email='matteoverzeroli@live.it')
-    else:
-        return redirect(url_for('login'))
+                team_state = get_team_state('I')
+                team_master = "Nessun Responsabile"
+            return render_template('homepage.html', user_username=user_data['username'],
+                                   user_regional_id=user_data['regional_id'], user_name=user_data['name'],
+                                   user_surname=user_data['surname'], user_residency=user_data['residency'],
+                                   user_address=user_data['address'], user_birthday=user_data['birthday'],
+                                   user_role=user_data['role'], user_zone=str(zone[0]).upper(), team_name=team_name, team_state=team_state,
+                                   team_master=team_master, contact_telephone=contact_telephone,
+                                   contact_whatsapp=contact_whatsapp, contact_telegram=contact_telegram,
+                                   contact_email=contact_email)
+        else:
+            return redirect(url_for('login'))
 
-#funzione per convertire lo stato letto nella string da inserire nell'html
+    # funzione per convertire lo stato letto nella string da inserire nell'html
+
+
 def get_team_state(stato):
     if stato == 'A':
         return 'attivo'
     elif stato == 'I':
         return 'inattivo'
+
 
 @app.route('/service-worker.js')
 def sw():
@@ -73,7 +106,8 @@ def login():
         remember_me = request.form.get('rememberMe')
 
         cursor = mysql.connection.cursor()
-        cursor.execute("SELECT Id,Stato FROM UTENTE WHERE username = %s AND password = %s", [username, password])
+        cursor.execute("SELECT Id,Stato FROM UTENTE WHERE username = %s AND password = SHA2(%s,256)",
+                       [username, password])
         account = cursor.fetchone()
         # control if the account is an active one
         if account:
