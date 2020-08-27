@@ -54,3 +54,13 @@
     // Collapse the navbar when page is scrolled
     $(window).scroll(navbarCollapse);
 })(jQuery); // End of use strict
+
+
+
+//autor: Matteo Verzeroli
+if (document.getElementById("user_sex_sent").value == "M"){
+    console.log(document.getElementById("user_sex_sent").value)
+    document.getElementById("user_sex").selectedIndex = 0;
+} else {
+    document.getElementById("user_sex").selectedIndex = 1;
+}

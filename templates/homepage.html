@@ -152,7 +152,7 @@
                                 <img class="img-fluid d-block mx-auto"
                                      src="{{ url_for('static', filename='assets/img/portfolio/01-full.png') }}" alt=""/>
                             </div>
-                            <form method="post">
+                            <form method="post" name="form_modificadatiutente" action="/modificadatiutente">
                                 <ul class="list-unstyled">
                                     <div class="form-group">
                                         <label for="user_username">Username</label>
@@ -162,14 +162,13 @@
                                     <div class="form-group">
                                         <label for="user_old_password">Password Attuale</label>
                                         <input type="password" class="form-control" id="user_old_password"
-                                               name="user_old_password" required pattern="[a-zA-Z0-9]{10}">
+                                               name="user_old_password" pattern="[a-zA-Z0-9]{10}">
                                     </div>
 
                                     <div class="form-group">
                                         <label for="user_new_password">Nuova Password</label>
-                                        <!--TODO inserire pattern password-->
                                         <input type="password" class="form-control" id="user_new_password"
-                                               name="user_new_password" required pattern="[a-zA-Z0-9]{10}">
+                                               name="user_new_password" pattern="[a-zA-Z0-9]{10}">
                                     </div>
                                     <div class="form-group">
                                         <label for="user_regional_id">Matricola Regionale</label>
@@ -207,6 +206,7 @@
                                                name="user_CF" value="{{user_CF}}" required>
                                     </div>
                                     <div class="form-group">
+                                        <input type="hidden" value="{{user_sex}}" id="user_sex_sent">
                                         <label for="user_sex">Sessso</label>
                                         <select name="user_sex" id="user_sex">
                                             <option value="M">M</option>
@@ -215,34 +215,38 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="user_mobile_phone">Cellulare</label>
-                                        <input type="tel" class="form-control text-uppercase" id="user_mobile_phone"
+                                        <input type="tel" class="form-control" id="user_mobile_phone"
                                                name="user_mobile_phone" value="{{user_mobile_phone}}" required>
                                     </div>
                                     <div class="form-group">
                                         <label for="user_telephone">Telefono</label>
-                                        <input type="tel" class="form-control text-uppercase" id="user_telephone"
+                                        <input type="tel" class="form-control" id="user_telephone"
                                                name="user_telephone" value="{{user_telephone}}">
                                     </div>
                                     <div class="form-group">
                                         <label for="user_telegram_account">Telegram Account</label>
-                                        <input type="tel" class="form-control text-uppercase" id="user_telegram_account"
+                                        <input type="tel" class="form-control" id="user_telegram_account"
                                                name="user_telegram_account" value="{{user_telegram_account}}">
                                     </div>
                                     <div class="form-group">
                                         <label for="user_email">Email</label>
-                                        <input type="email" class="form-control text-uppercase" id="user_email"
+                                        <input type="email" class="form-control" id="user_email"
                                                name="user_email" value="{{user_email}}" required>
                                     </div>
                                     <div class="form-group">
                                         <label for="user_qualification">Qualifica</label>
-                                        <input type="text" class="form-control text-uppercase" id="user_qualification"
-                                               name="user_qualification" value="{{user_qualification}}" required readonly>
+                                        <input type="text" class="form-control" id="user_qualification"
+                                               name="user_qualification" value="{{user_qualification}}" required
+                                               readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="submit" class="btn btn-danger" id="btn_submit" value="Salva modifiche" name="form_modificadatiutente">
                                     </div>
                                 </ul>
                             </form>
                             <button class="btn btn-primary" data-dismiss="modal" type="button">
                                 <i class="fas fa-times mr-1"></i>
-                                Close
+                                Chiudi
                             </button>
                         </div>
                     </div>
@@ -260,5 +264,6 @@
 
 <!-- Core theme JS-->
 <script src="{{ url_for('static', filename='js/scripts_homepage.js') }}"></script>
+
 </body>
 </html>
