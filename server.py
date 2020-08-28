@@ -20,7 +20,7 @@ mysql = MySQL(app)
 def index():
     if 'logged_in' in session:
         if session['logged_in'] == True:
-            return render_template('index.html')
+            return redirect(url_for('homepage'))
     else:
         return redirect(url_for('login'))
 
@@ -140,7 +140,7 @@ def login():
                     session.permanent = True
 
                 # Redirect to home page
-                return redirect(url_for('index'))
+                return redirect(url_for('homepage'))
 
             elif str(account[1]) == "Eliminato":
                 flash("Errore! Account eliminato!")

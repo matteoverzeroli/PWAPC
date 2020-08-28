@@ -56,11 +56,20 @@
 })(jQuery); // End of use strict
 
 
+//author: Matteo Verzeroli
 
-//autor: Matteo Verzeroli
-if (document.getElementById("user_sex_sent").value == "M"){
-    console.log(document.getElementById("user_sex_sent").value)
+//it handles the select item in modificadatiutente
+if (document.getElementById("user_sex_sent").value == "M") {
     document.getElementById("user_sex").selectedIndex = 0;
 } else {
     document.getElementById("user_sex").selectedIndex = 1;
+}
+
+var teamState = $("#team_state");
+var state = teamState.text();
+if (state == "Stato: attivo") {
+    document.getElementById("bottomNav").style.visibility = "visible";
+} else {
+    document.getElementById("bottomNav").style.visibility = "hidden";
+
 }
