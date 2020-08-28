@@ -2,7 +2,7 @@ const CACHE_NAME = 'static-cache-v0'; //use version to upgrade offline caches
 
 const FILES_TO_CACHE = [
     "/static/offline.html",
-    "/static/css/styles.css",
+    "/static/css/styles_homepage.css",
     "/static/js/app.js"
 ];
 

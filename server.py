@@ -87,7 +87,8 @@ def homepage():
                                    contact_email=contact_email)
         else:
             return redirect(url_for('login'))
-
+    else:
+        return redirect(url_for('login'))
 
 def get_team_state(stato):
     if stato == 'A':
