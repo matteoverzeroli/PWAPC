@@ -65,11 +65,20 @@ if (document.getElementById("user_sex_sent").value == "M") {
     document.getElementById("user_sex").selectedIndex = 1;
 }
 
-var teamState = $("#team_state");
-var state = teamState.text();
-if (state == "Stato: attivo") {
+//show botton navbar when the state of team is active
+if ($("#team_state").text() == "Stato: attivo") {
     document.getElementById("bottomNav").style.visibility = "visible";
 } else {
     document.getElementById("bottomNav").style.visibility = "hidden";
+}
 
+$(function () {
+    $.ajax({
+        method: 'POST',
+        url: '/jquery',
+        data: $(this).serialize()
+    }).done(test)
+})
+function test(data) {
+    console.log(data.user_data);
 }

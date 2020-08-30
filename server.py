@@ -1,17 +1,15 @@
-from flask import Flask, render_template, request, session, flash, redirect, url_for
+from flask import Flask, render_template, request, session, flash, redirect, url_for, jsonify
 from flask_mysqldb import MySQL
 
 app = Flask(__name__)
 
-# MySQL configuration
+# MySQL configuration #TODO TO BE CHANGED
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = 'database'
 app.config['MYSQL_DB'] = 'database'
 
 app.secret_key = 'yoursecretkey '  # TODO to be changed
-
-# TODO PASSWORD encryption into db
 
 mysql = MySQL(app)
 
@@ -90,6 +88,7 @@ def homepage():
     else:
         return redirect(url_for('login'))
 
+
 def get_team_state(stato):
     if stato == 'A':
         return 'attivo'
@@ -111,6 +110,7 @@ def modifica_dati_utente():
             mysql.connection.commit()
         return redirect(url_for('homepage'))
     return redirect(url_for('login'))
+
 
 @app.route('/service-worker.js')
 def sw():
@@ -154,6 +154,43 @@ def login():
             flash("Incorrect username/password!")
 
     return render_template("login.html")
+
+
+@app.route('/jquery', methods=["POST"])
+def add_numbers():
+    if 'logged_in' in session:
+        if session['logged_in'] == True:
+            cursor = mysql.connection.cursor()
+            cursor.execute(
+                "SELECT Username,MatricolaRegionale,Nome,Cognome,Residenza,Indirizzo,DataNascita,CF,Sesso,Cellulare,Telefono,TelegramUsername,Email,Qualifica,CodiceZona,Ruolo,Stato FROM UTENTE WHERE id = %s",
+                [session['user_id']])
+            user = cursor.fetchone()
+            user_data = {
+                'username': user[0],
+                'regional_id': user[1],
+                'name': user[2],
+                'surname': user[3],
+                'residency': user[4],
+                'address': user[5],
+                'birthday': user[6],
+                'CF': user[7],
+                'sex': user[8],
+                'mobile_phone': user[9],
+                'telephone': user[10],
+                'telegram_username': user[11],
+                'email': user[12],
+                'qualification': user[13],
+                'zone': user[14],
+                'role': user[15],
+                'state': user[16]
+            }
+
+            return jsonify(user_data=user_data)
+
+        else:
+            return redirect(url_for('login'))
+    else:
+        return redirect(url_for('login'))
 
 
 if __name__ == '__main__':
