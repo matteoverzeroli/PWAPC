@@ -58,27 +58,58 @@
 
 //author: Matteo Verzeroli
 
-//it handles the select item in modificadatiutente
-if (document.getElementById("user_sex_sent").value == "M") {
-    document.getElementById("user_sex").selectedIndex = 0;
-} else {
-    document.getElementById("user_sex").selectedIndex = 1;
-}
-
-//show botton navbar when the state of team is active
-if ($("#team_state").text() == "Stato: attivo") {
-    document.getElementById("bottomNav").style.visibility = "visible";
-} else {
-    document.getElementById("bottomNav").style.visibility = "hidden";
-}
-
-$(function () {
+$(document).ready(function get_user_data() {
     $.ajax({
         method: 'POST',
-        url: '/jquery',
+        url: '/get_user_data',
         data: $(this).serialize()
-    }).done(test)
+    }).done(set_data)
 })
-function test(data) {
-    console.log(data.user_data);
+
+function set_data(data) {
+    document.getElementById("navbar_text").innerText = data.user_data.name + " " + data.user_data.surname + "\n" + data.user_data.role;
+
+    document.getElementById("user_zone").innerText = "Zona: " + data.zone_data.name;
+
+    document.getElementById("team_name").innerText = "Nome squadra: " + data.team_data.name;
+    document.getElementById("team_state").innerText = "Stato: " + data.team_data.state;
+    document.getElementById("team_master").innerText = "Responsabile: " + data.team_data.master;
+
+    document.getElementById("user_username").value = data.user_data.username;
+    document.getElementById("user_regional_id").value = data.user_data.regional_id;
+    document.getElementById("user_name").value = data.user_data.name;
+    document.getElementById("user_surname").value = data.user_data.surname;
+    document.getElementById("user_residency").value = data.user_data.residency;
+    document.getElementById("user_address").value = data.user_data.address;
+
+    document.getElementById("user_birthday").value = new Date(data.user_data.birthday).toISOString().slice(0, 10);
+    document.getElementById("user_CF").value = data.user_data.CF;
+
+    //it handles the select item in modificadatiutente
+    if (data.user_data.sex == "M") {
+        document.getElementById("user_sex").selectedIndex = 0;
+    } else {
+        document.getElementById("user_sex").selectedIndex = 1;
+    }
+
+    document.getElementById("user_mobile_phone").value = data.user_data.mobile_phone;
+    document.getElementById("user_telephone").value = data.user_data.telephone;
+    document.getElementById("user_telegram_username").value = data.user_data.telegram_username;
+    document.getElementById("user_email").value = data.user_data.email;
+    document.getElementById("user_qualification").value = data.user_data.qualification;
+
+    document.getElementById("contact_mobile_phone").href = "tel:" + data.contact_data.mobile_phone;
+    document.getElementById("contact_whatsapp").href = "https://wa.me/" + data.contact_data.whatsapp;
+    document.getElementById("contact_telegram").href = "https://telegram.me/" + data.contact_data.telegram;
+    document.getElementById("contact_email").href = "mailto:" + data.contact_data.email;
+
+
+    //show botton navbar when the state of team is active
+    if ($("#team_state").text() == "Stato: attivo") {
+        document.getElementById("bottomNav").style.visibility = "visible";
+    } else {
+        document.getElementById("bottomNav").style.visibility = "hidden";
+    }
 }
+
+

@@ -29,7 +29,7 @@
         <a class="navbar-brand js-scroll-trigger" href="#page-top"><img
                 src="{{ url_for('static', filename='assets/img/navbar-logo.jpg') }}" alt=""/></a>
         <span class="navbar-text">
-            <h5>{{user_name}} &nbsp; {{user_surname}} <br> {{user_role}}</h5>
+            <h5 id="navbar_text"> <!-- user_name , user_surname , user_role --></h5>
         </span>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
                 data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
@@ -55,13 +55,13 @@
             Contatta il tuo responsabile di squadra!
         </div>
         <ul class="navbar-nav flex-row mx-auto">
-            <a class="nav-item btn-lg btn-dark btn-social" href="tel:{{contact_telephone}}"><i
+            <a class="nav-item btn-lg btn-dark btn-social" id="contact_mobile_phone"><i
                     class="fas fa-phone-alt"></i></a>
-            <a class="nav-item btn-lg btn-dark btn-social" href="https://wa.me/{{contact_whatsapp}}"><i
+            <a class="nav-item btn-lg btn-dark btn-social" id="contact_whatsapp"><i
                     class="fab fa-whatsapp"></i></a>
-            <a class="nav-item btn-lg btn-dark btn-social" href=" https://telegram.me/{{contact_telegram}}"><i
+            <a class="nav-item btn-lg btn-dark btn-social" id="contact_telegram"><i
                     class="fab fa-telegram"></i></a>
-            <a class="nav-item btn-lg btn-dark btn-social" href="mailto:{{contact_email}}"><i
+            <a class="nav-item btn-lg btn-dark btn-social" id="contact_email"><i
                     class="fas fa-at"></i></a>
 
         </ul>
@@ -73,7 +73,7 @@
     <div class="container">
         <div class="row text-center ">
             <div class="col-md-12">
-                <h1 class="my-3 te">Zona: {{user_zone}} </h1>
+                <h1 class="my-3" id="user_zone"><!-- user_zone_name--> </h1>
             </div>
         </div>
     </div>
@@ -83,9 +83,9 @@
     <div class="container">
         <div class="text-center">
             <h2 class="section-heading text-uppercase">Squadra</h2>
-            <h3 class="section-subheading text-muted">Nome squadra: {{team_name}}</h3>
-            <h3 class="section-subheading text-muted text-uppercase" id="team_state">Stato: {{team_state}}</h3>
-            <h3 class="section-subheading text-muted">Responsabile: {{team_master}}</h3>
+            <h3 class="section-subheading text-muted" id="team_name"><!--team_name--></h3>
+            <h3 class="section-subheading text-muted text-uppercase" id="team_state"><!--team_state--></h3>
+            <h3 class="section-subheading text-muted" id="team_master"><!--team_state--></h3>
         </div>
         <div class="row">
             <div class="col-lg-4 col-sm-6 mb-4 mx-auto">
@@ -158,45 +158,44 @@
                                     <div class="form-group">
                                         <label for="user_username">Username</label>
                                         <input type="text" class="form-control" id="user_username"
-                                               value="{{user_username}}" readonly>
+                                               readonly>
                                     </div>
                                     <div class="form-group">
                                         <label for="user_regional_id">Matricola Regionale</label>
                                         <input type="text" class="form-control" id="user_regional_id"
-                                               name="user_regional_id" value="{{user_regional_id}}" readonly>
+                                               name="user_regional_id" readonly>
                                     </div>
                                     <div class="form-group">
                                         <label for="user_name">Nome</label>
                                         <input type="text" class="form-control" id="user_name" name="user_name"
-                                               value="{{user_name}}" required>
+                                               required>
                                     </div>
                                     <div class="form-group">
                                         <label for="user_surname">Cognome</label>
                                         <input type="text" class="form-control" id="user_surname" name="user_surname"
-                                               value="{{user_surname}}" required>
+                                               required>
                                     </div>
                                     <div class="form-group">
                                         <label for="user_residency">Residenza</label>
                                         <input type="text" class="form-control" id="user_residency"
-                                               name="user_residency" value="{{user_residency}}" required>
+                                               name="user_residency" required>
                                     </div>
                                     <div class="form-group">
                                         <label for="user_address">Indirizzo</label>
                                         <input type="text" class="form-control" id="user_address" name="user_address"
-                                               value="{{user_address}}" required>
+                                               required>
                                     </div>
                                     <div class="form-group">
                                         <label for="user_birthday">Data di nascita</label>
                                         <input type="date" class="form-control" id="user_birthday" name="user_birthday"
-                                               value="{{user_birthday}}" required>
+                                               required>
                                     </div>
                                     <div class="form-group">
                                         <label for="user_CF">Codice Fiscale</label>
                                         <input type="text" class="form-control text-uppercase" id="user_CF"
-                                               name="user_CF" value="{{user_CF}}" required>
+                                               name="user_CF" required>
                                     </div>
                                     <div class="form-group">
-                                        <input type="hidden" value="{{user_sex}}" id="user_sex_sent">
                                         <label for="user_sex">Sessso</label>
                                         <select name="user_sex" id="user_sex">
                                             <option value="M">M</option>
@@ -206,28 +205,27 @@
                                     <div class="form-group">
                                         <label for="user_mobile_phone">Cellulare</label>
                                         <input type="tel" class="form-control" id="user_mobile_phone"
-                                               name="user_mobile_phone" value="{{user_mobile_phone}}" required>
+                                               name="user_mobile_phone" required>
                                     </div>
                                     <div class="form-group">
                                         <label for="user_telephone">Telefono</label>
                                         <input type="tel" class="form-control" id="user_telephone"
-                                               name="user_telephone" value="{{user_telephone}}">
+                                               name="user_telephone">
                                     </div>
                                     <div class="form-group">
-                                        <label for="user_telegram_account">Telegram Account</label>
-                                        <input type="tel" class="form-control" id="user_telegram_account"
-                                               name="user_telegram_account" value="{{user_telegram_account}}">
+                                        <label for="user_telegram_username">Telegram Account</label>
+                                        <input type="tel" class="form-control" id="user_telegram_username"
+                                               name="user_telegram_account">
                                     </div>
                                     <div class="form-group">
                                         <label for="user_email">Email</label>
                                         <input type="email" class="form-control" id="user_email"
-                                               name="user_email" value="{{user_email}}" required>
+                                               name="user_email" required>
                                     </div>
                                     <div class="form-group">
                                         <label for="user_qualification">Qualifica</label>
                                         <input type="text" class="form-control" id="user_qualification"
-                                               name="user_qualification" value="{{user_qualification}}" required
-                                               readonly>
+                                               name="user_qualification" required readonly>
                                     </div>
                                     <div class="form-group">
                                         <input type="submit" class="btn btn-danger" id="btn_submit"
