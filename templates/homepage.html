@@ -153,7 +153,7 @@
                                 <img class="img-fluid d-block mx-auto"
                                      src="{{ url_for('static', filename='assets/img/portfolio/01-full.png') }}" alt=""/>
                             </div>
-                            <form method="post" name="form_modificadatiutente" action="/modificadatiutente">
+                            <form method="post" name="form_modificadatiutente" action="/modificadatiutente" id="form_modificadatiutente">
                                 <ul class="list-unstyled">
                                     <div class="form-group">
                                         <label for="user_username">Username</label>
@@ -228,8 +228,8 @@
                                                name="user_qualification" required readonly>
                                     </div>
                                     <div class="form-group">
-                                        <input type="submit" class="btn btn-danger" id="btn_submit"
-                                               value="Salva modifiche" name="form_modificadatiutente">
+                                        <button class="btn btn-danger" id="btn_submit"
+                                                name="form_modificadatiutente"> Salva modifiche </button>
                                     </div>
                                 </ul>
                             </form>
@@ -255,6 +255,8 @@
 
 <!--App script author:Matteo Verzeroli-->
 <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+<script src="{{ url_for('static', filename='js/notifications.js') }}"></script>
+
 
 </body>
 </html>

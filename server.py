@@ -40,10 +40,7 @@ def homepage():
 @app.route('/modificadatiutente', methods=['POST'])
 def modifica_dati_utente():
     if 'logged_in' in session:
-        print(request.form)
-
-        if session['logged_in'] == True and 'form_modificadatiutente' in request.form:
-            print("ok")
+        if session['logged_in'] and 'form_modificadatiutente' in request.form:
             cursor = mysql.connection.cursor()
             cursor.execute(
                 "UPDATE UTENTE SET Nome = %s,Cognome = %s,Residenza = %s,Indirizzo = %s,DataNascita = %s,CF = %s,Sesso = %s,Cellulare = %s,Telefono = %s,TelegramUsername = %s,Email = %s WHERE Id = %s",

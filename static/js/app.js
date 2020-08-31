@@ -1,3 +1,7 @@
+/*
+    AUTHOR: Matteo Verzeroli
+ */
+
 //handles Service Worker
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker

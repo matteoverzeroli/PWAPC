@@ -103,13 +103,18 @@ function set_data(data) {
     document.getElementById("contact_telegram").href = "https://telegram.me/" + data.contact_data.telegram;
     document.getElementById("contact_email").href = "mailto:" + data.contact_data.email;
 
-
     //show botton navbar when the state of team is active
-    if ($("#team_state").text() == "Stato: attivo") {
+    if (document.getElementById("team_state").innerText.toLowerCase() == "stato: attivo") {
         document.getElementById("bottomNav").style.visibility = "visible";
     } else {
         document.getElementById("bottomNav").style.visibility = "hidden";
     }
 }
+
+// submit form modificadatiutente
+$("#btn_submit").click(function submit_form_modificautente() {
+    $("#form_modificadatiutente").submit(function () {
+    });
+});
 
 
