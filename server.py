@@ -1,5 +1,3 @@
-from distutils.command.config import config
-
 from flask import Flask, render_template, request, session, flash, redirect, url_for, jsonify
 from flask_mysqldb import MySQL
 
@@ -164,6 +162,15 @@ def get_team_state(stato):
         return 'attivo'
     elif stato == 'I':
         return 'inattivo'
+
+
+@app.route('/add_user_subscription', methods=["POST"])
+def add_user_subscription():
+    print(dict(request.json))
+    cursor = mysql.connection.cursor()
+    cursor.execute("UPDATE UTENTE SET Subscription =  %s WHERE Id = %s",[request.json,session['user_id']])
+    mysql.connection.commit()
+    return ("",204)
 
 
 if __name__ == '__main__':
