@@ -17,7 +17,8 @@ CREATE TABLE IF NOT EXISTS UTENTE(
                 Qualifica VARCHAR(50) NOT NULL,
                 CodiceZona VARCHAR(10) NOT NULL,
                 Ruolo VARCHAR(15) NOT NULL, 
-                Stato VARCHAR(10) NOT NULL);
+                Stato VARCHAR(10) NOT NULL,
+                Subscription JSON);
                 
 CREATE TABLE IF NOT EXISTS ZONA(
                 CodiceZona VARCHAR(10), 

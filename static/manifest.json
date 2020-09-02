@@ -28,5 +28,5 @@
   "start_url": "/",
   "display": "standalone",
   "orientation": "portrait",
-  "gcm_sender_id" : "1037551907725"
+  "gcm_sender_id": "1037551907725"
 }

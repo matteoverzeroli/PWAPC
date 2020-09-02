@@ -1,5 +1,7 @@
 from flask import Flask, render_template, request, session, flash, redirect, url_for, jsonify
 from flask_mysqldb import MySQL
+import json
+from pywebpush import webpush
 
 app = Flask(__name__)
 
@@ -166,11 +168,20 @@ def get_team_state(stato):
 
 @app.route('/add_user_subscription', methods=["POST"])
 def add_user_subscription():
-    print(dict(request.json))
     cursor = mysql.connection.cursor()
-    cursor.execute("UPDATE UTENTE SET Subscription =  %s WHERE Id = %s",[request.json,session['user_id']])
+    cursor.execute("UPDATE UTENTE SET Subscription =  %s WHERE Id = %s", [json.dumps(request.json), session['user_id']])
     mysql.connection.commit()
-    return ("",204)
+
+    cursor = mysql.connection.cursor()
+    cursor.execute("SELECT Subscription FROM UTENTE WHERE Id = %s", [session['user_id']])
+    subscription_info = cursor.fetchone()
+
+    webpush(json.loads(subscription_info[0]),
+            data="ciao",
+            vapid_private_key="*****",
+            vapid_claims={"sub": "mailto:matteoverzeroli@live.it"})
+
+    return ("", 200)
 
 
 if __name__ == '__main__':
