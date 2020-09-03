@@ -103,7 +103,7 @@ def get_user_data():
         if session['logged_in']:
             cursor = mysql.connection.cursor()
             cursor.execute(
-                "SELECT Username,MatricolaRegionale,Nome,Cognome,Residenza,Indirizzo,DataNascita,CF,Sesso,Cellulare,Telefono,TelegramUsername,Email,Qualifica,CodiceZona,Ruolo,Stato FROM UTENTE WHERE id = %s",
+                "SELECT Username,MatricolaRegionale,Nome,Cognome,Residenza,Indirizzo,DataNascita,CF,Sesso,Cellulare,Telefono,TelegramUsername,Email,Qualifica,CodiceZona,Ruolo,Stato,Operativo FROM UTENTE WHERE id = %s",
                 [session['user_id']])
             user = cursor.fetchone()
             user_data = {
@@ -123,7 +123,8 @@ def get_user_data():
                 'qualification': user[13],
                 'zone': user[14],
                 'role': user[15],
-                'state': user[16]
+                'state': user[16],
+                'operative': user[17]
             }
 
             cursor.execute("SELECT Nome FROM ZONA WHERE CodiceZona = %s", [user_data['zone']])
@@ -176,13 +177,20 @@ def add_user_subscription():
     cursor.execute("SELECT Subscription FROM UTENTE WHERE Id = %s", [session['user_id']])
     subscription_info = cursor.fetchone()
 
+    cursor.execute("SELECT Valore FROM CHIAVE")
+
+    vapid_private = cursor.fetchone()[0]
     webpush(json.loads(subscription_info[0]),
             data="ciao",
-            vapid_private_key="*****",
+            vapid_private_key=vapid_private,
             vapid_claims={"sub": "mailto:matteoverzeroli@live.it"})
 
-    return ("", 200)
+    return ("", 204)
 
+
+@app.route('/set_user_operation_status', methods=["POST"])
+def set_user_operation_status():
+    return ("", 204)
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", debug=True)

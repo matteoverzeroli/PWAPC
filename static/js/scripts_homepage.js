@@ -62,7 +62,6 @@ $(document).ready(function get_user_data() {
     $.ajax({
         method: 'POST',
         url: '/get_user_data',
-        data: $(this).serialize()
     }).done(set_data)
 })
 
@@ -109,12 +108,44 @@ function set_data(data) {
     } else {
         document.getElementById("bottomNav").style.visibility = "hidden";
     }
+
+    //select the operative button
+    set_operative_btn(data.user_data.operative)
 }
 
-// submit form modificadatiutente
-$("#btn_submit").click(function submit_form_modificautente() {
-    $("#form_modificadatiutente").submit(function () {
-    });
-});
+document.getElementById("btn_submit").addEventListener('click',submit_form_modificautente);
 
+// submit form modificadatiutente
+function submit_form_modificautente() {
+    $("#form_modificadatiutente").submit();
+}
+
+document.getElementById("btn-operative").addEventListener('click',send_operative_status);
+
+//send operative status
+function send_operative_status() {
+    $.ajax({
+        method: 'POST',
+        url: '/set_user_operation_status',
+        data: !document.getElementById("btn-operative").value
+    }).done(set_operative_btn(!document.getElementById("btn-operative").value))
+}
+
+//set operative status
+function set_operative_btn(status) {
+    console.log(status)
+    if (status == false) {
+        document.getElementById("btn-operative").innerText = "NON OPERATIVO !";
+        document.getElementById("btn-operative").value = "0";
+
+        document.getElementById("btn-operative").classList.add('btn-warning')
+        document.getElementById("btn-operative").classList.remove('btn-danger')
+    } else {
+        document.getElementById("btn-operative").innerText = "OPERATIVO !";
+        document.getElementById("btn-operative").value = "1";
+
+        document.getElementById("btn-operative").classList.add('btn-danger')
+        document.getElementById("btn-operative").classList.remove('btn-warning')
+    }
+}
 
