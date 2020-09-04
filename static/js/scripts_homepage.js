@@ -113,27 +113,29 @@ function set_data(data) {
     set_operative_btn(data.user_data.operative)
 }
 
-document.getElementById("btn_submit").addEventListener('click',submit_form_modificautente);
+document.getElementById("btn_submit").addEventListener('click', submit_form_modificautente);
 
 // submit form modificadatiutente
 function submit_form_modificautente() {
     $("#form_modificadatiutente").submit();
 }
 
-document.getElementById("btn-operative").addEventListener('click',send_operative_status);
+document.getElementById("btn-operative").addEventListener('click', send_operative_status);
 
 //send operative status
 function send_operative_status() {
     $.ajax({
         method: 'POST',
         url: '/set_user_operation_status',
-        data: !document.getElementById("btn-operative").value
-    }).done(set_operative_btn(!document.getElementById("btn-operative").value))
+        data: JSON.stringify({"operativo" : !(document.getElementById("btn-operative").value == '1')}),
+        contentType: 'application/json',
+        dataType: 'json',
+        async: true
+    }).done(set_operative_btn(!(document.getElementById("btn-operative").value == '1')))
 }
 
 //set operative status
 function set_operative_btn(status) {
-    console.log(status)
     if (status == false) {
         document.getElementById("btn-operative").innerText = "NON OPERATIVO !";
         document.getElementById("btn-operative").value = "0";

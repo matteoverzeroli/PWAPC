@@ -43,6 +43,9 @@
                 <li class="nav-item"><a class="nav-link" data-toggle="modal" href="#modificadatiutente">Modifica dati
                     utente</a></li>
                 <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#section-squadra">Squadra</a></li>
+                <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#section-operative">Operatività</a>
+                </li>
+                <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#section-position">Posizione</a></li>
                 <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#section-calendario">Calendario</a>
                 </li>
             </ul>
@@ -113,8 +116,22 @@
     </div>
 </section>
 
+<!-- Operative section-->
+<section class="page-section bg-light" id="section-position">
+    <div class="container">
+        <div class="text-center align-content-center">
+            <h2 class="section-heading text-uppercase">Posizione</h2>
+        </div>
+        <div class="flex-column">
+            <div class="p-2 text-center"><label for="btn-position">Invia la tua posizione !</label></div>
+            <div class="p-4 text-center"><button type="button" class="btn-social fa-4x" id="btn-position"><i class="fas fa-map-marker-alt"></i>
+            </button></div>
+        </div>
+    </div>
+</section>
+
 <!-- Events-->
-<section class="page-section bg-light" id="section-calendario">
+<section class="page-section" id="section-calendario">
     <div class="container">
         <div class="text-center">
             <h2 class="section-heading text-uppercase">Calendario</h2>
@@ -271,7 +288,7 @@
 <!--App script author:Matteo Verzeroli-->
 <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 <script src="{{ url_for('static', filename='js/notifications.js') }}"></script>
-
+<script src="{{ url_for('static', filename='js/geolocation.js') }}"></script>
 
 </body>
 </html>

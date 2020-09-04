@@ -173,24 +173,45 @@ def add_user_subscription():
     cursor.execute("UPDATE UTENTE SET Subscription =  %s WHERE Id = %s", [json.dumps(request.json), session['user_id']])
     mysql.connection.commit()
 
-    cursor = mysql.connection.cursor()
-    cursor.execute("SELECT Subscription FROM UTENTE WHERE Id = %s", [session['user_id']])
-    subscription_info = cursor.fetchone()
-
-    cursor.execute("SELECT Valore FROM CHIAVE")
-
-    vapid_private = cursor.fetchone()[0]
-    webpush(json.loads(subscription_info[0]),
-            data="ciao",
-            vapid_private_key=vapid_private,
-            vapid_claims={"sub": "mailto:matteoverzeroli@live.it"})
-
     return ("", 204)
 
 
 @app.route('/set_user_operation_status', methods=["POST"])
 def set_user_operation_status():
+    cursor = mysql.connection.cursor()
+    cursor.execute("UPDATE UTENTE SET Operativo =  %s WHERE Id = %s", [request.json['operativo'], session['user_id']])
+    mysql.connection.commit()
+
+    if request.json['operativo'] == True:
+        send_notification("STATO: OPERATIVO !!!")
+    else:
+        send_notification("STATO: NON OPERATIVO !!!")
+
     return ("", 204)
+
+
+def send_notification(data):
+    cursor = mysql.connection.cursor()
+    cursor.execute("SELECT Subscription FROM UTENTE WHERE Id = %s", [session['user_id']])
+    subscription_info = cursor.fetchone()
+
+    cursor.execute("SELECT Valore FROM CHIAVE")
+    vapid_private = cursor.fetchone()[0]
+
+    webpush(json.loads(subscription_info[0]),
+            data=data,
+            vapid_private_key=vapid_private,
+            vapid_claims={"sub": "mailto:matteoverzeroli@live.it"})
+
+
+@app.route('/set_user_position', methods=["POST"])
+def set_user_position():
+    cursor = mysql.connection.cursor()
+    cursor.execute("INSERT INTO POSIZIONE(IdUtente,Latitudine,Longitudine) VALUES (%s,%s,%s)  ", [session['user_id'],float(request.json['lat']),float(request.json['long'])])
+    mysql.connection.commit()
+
+    return ("", 204)
+
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", debug=True)

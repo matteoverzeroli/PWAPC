@@ -18,7 +18,8 @@ CREATE TABLE IF NOT EXISTS UTENTE(
                 CodiceZona VARCHAR(10) NOT NULL,
                 Ruolo VARCHAR(15) NOT NULL, 
                 Stato VARCHAR(10) NOT NULL,
-                Subscription JSON);
+                Subscription JSON,
+                Operativo BOOLEAN DEFAULT FALSE);
                 
 CREATE TABLE IF NOT EXISTS ZONA(
                 CodiceZona VARCHAR(10), 
@@ -42,6 +43,13 @@ CREATE TABLE IF NOT EXISTS PARTECIPASQUADRA(
                 IdSquadra INT,
                 IdUtente INT,
                 PRIMARY KEY (IdSquadra,IdUtente));
+                
+CREATE TABLE IF NOT EXISTS POSIZIONE(
+                IdUtente INT,
+                DataRicezione TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                Latitudine DECIMAL(10,8) NOT NULL,
+                Longitudine DECIMAL(11,8) NOT NULL,
+                PRIMARY KEY (IdUtente,DataRicezione));
 
 ALTER TABLE UTENTE ADD FOREIGN KEY (CodiceZona) REFERENCES ZONA(CodiceZona);
 ALTER TABLE ZONA ADD FOREIGN KEY (CodiceArea) REFERENCES AREA(CodiceArea);
@@ -49,6 +57,7 @@ ALTER TABLE ZONA ADD FOREIGN KEY (IdResponsabile) REFERENCES UTENTE(Id);
 ALTER TABLE SQUADRA ADD FOREIGN KEY (IdResponsabile) REFERENCES UTENTE(Id);
 ALTER TABLE PARTECIPASQUADRA ADD FOREIGN KEY (IdSquadra) REFERENCES SQUADRA(Id);
 ALTER TABLE PARTECIPASQUADRA ADD FOREIGN KEY (IdUtente) REFERENCES UTENTE(Id);
+ALTER TABLE POSIZIONE ADD FOREIGN KEY (IdUtente) REFERENCES UTENTE(Id);
 
 
 
