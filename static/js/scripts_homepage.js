@@ -127,11 +127,17 @@ function send_operative_status() {
     $.ajax({
         method: 'POST',
         url: '/set_user_operation_status',
-        data: JSON.stringify({"operativo" : !(document.getElementById("btn-operative").value == '1')}),
+        data: JSON.stringify({"operativo": !(document.getElementById("btn-operative").value == '1')}),
         contentType: 'application/json',
         dataType: 'json',
-        async: true
-    }).done(set_operative_btn(!(document.getElementById("btn-operative").value == '1')))
+        async: true,
+        error: function () {
+            alert("Errore invio stato operativo!");
+        },
+        success: function () {
+            set_operative_btn(!(document.getElementById("btn-operative").value == '1'));
+        }
+    });
 }
 
 //set operative status

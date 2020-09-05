@@ -10417,6 +10417,9 @@ a.text-info:hover, a.text-info:focus {
 .text-warning {
     color: #fed136 !important;
 }
+.text-green {
+    color: #34ce57 !important;
+}
 
 a.text-warning:hover, a.text-warning:focus {
     color: #e6b301 !important;

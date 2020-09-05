@@ -206,9 +206,25 @@ def send_notification(data):
 
 @app.route('/set_user_position', methods=["POST"])
 def set_user_position():
-    cursor = mysql.connection.cursor()
-    cursor.execute("INSERT INTO POSIZIONE(IdUtente,Latitudine,Longitudine) VALUES (%s,%s,%s)  ", [session['user_id'],float(request.json['lat']),float(request.json['long'])])
-    mysql.connection.commit()
+    pos = {
+        'lat': float(request.json['lat']),
+        'long': float(request.json['long']),
+        'acc': int(request.json['acc']) if request.json['acc'] else None,
+        'alt': int(request.json['alt']) if request.json['alt'] else None,
+        'accalt': int(request.json['accalt']) if request.json['accalt'] else None,
+        'heading': int(request.json['heading']) if request.json['heading'] else None,
+        'speed': int(request.json['speed']) if request.json['speed'] else None
+    }
+    try:
+        cursor = mysql.connection.cursor()
+        cursor.execute(
+            "INSERT INTO POSIZIONE(IdUtente,Latitudine,Longitudine,Accuratezza,Altitudine,AccuratezzaAltitudine,Direzione,Velocita) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)",
+            [session['user_id'], pos['lat'], pos['long'], pos['acc'],
+             pos['alt'], pos['accalt'], pos['heading'], pos['speed']])
+        mysql.connection.commit()
+
+    except Exception as E:
+        print(E)
 
     return ("", 204)
 
