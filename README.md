@@ -15,3 +15,13 @@ ESSERE:
 -> 'C'->CONTINUAZIONE PERCORSO
 -> 'F'->FINE PERCORSO
 -> NULL -> POSIZIONE SINGOLA
+
+NELLA TABELLA SQUDRA LO STATO PUO ESSERE:
+/*I = inattiva, A = attiva, E = eliminata*/
+
+NELLA TABELLA INTERVENTO:
+->tipologia= 'E'-> emergenza
+              'P'->programmato
+->codicecolore = '3'->rosso
+                '2'->giallo
+                '1'->verde              
