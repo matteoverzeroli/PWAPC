@@ -49,6 +49,12 @@ CREATE TABLE IF NOT EXISTS POSIZIONE(
                 DataRicezione TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
                 Latitudine DECIMAL(10,8) NOT NULL,
                 Longitudine DECIMAL(11,8) NOT NULL,
+                Accuratezza INT DEFAULT NULL,
+                Altitudine INT DEFAULT NULL,
+                AccuratezzaAltitudine INT DEFAULT NULL,
+                Direzione INT DEFAULT NULL,
+                Velocita INT DEFAULT NULL,
+                NodoPercorso CHAR DEFAULT NULL,
                 PRIMARY KEY (IdUtente,DataRicezione));
 
 ALTER TABLE UTENTE ADD FOREIGN KEY (CodiceZona) REFERENCES ZONA(CodiceZona);

@@ -213,14 +213,15 @@ def set_user_position():
         'alt': int(request.json['alt']) if request.json['alt'] else None,
         'accalt': int(request.json['accalt']) if request.json['accalt'] else None,
         'heading': int(request.json['heading']) if request.json['heading'] else None,
-        'speed': int(request.json['speed']) if request.json['speed'] else None
+        'speed': int(request.json['speed']) if request.json['speed'] else None,
+        'node': request.json['node'] if request.json['node'] else None
     }
     try:
         cursor = mysql.connection.cursor()
         cursor.execute(
-            "INSERT INTO POSIZIONE(IdUtente,Latitudine,Longitudine,Accuratezza,Altitudine,AccuratezzaAltitudine,Direzione,Velocita) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)",
+            "INSERT INTO POSIZIONE(IdUtente,Latitudine,Longitudine,Accuratezza,Altitudine,AccuratezzaAltitudine,Direzione,Velocita,NodoPercorso) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)",
             [session['user_id'], pos['lat'], pos['long'], pos['acc'],
-             pos['alt'], pos['accalt'], pos['heading'], pos['speed']])
+             pos['alt'], pos['accalt'], pos['heading'], pos['speed'],pos['node']])
         mysql.connection.commit()
 
     except Exception as E:
