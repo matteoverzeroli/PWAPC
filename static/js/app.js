@@ -14,3 +14,11 @@ if ('serviceWorker' in navigator) {
             console.error('Unable to register service worker.', err);
         });
 }
+
+/*
+
+ document.getElementById('requestButton').addEventListener('click', () => {
+       navigator.serviceWorker.ready.then(function (swRegistration) {
+    return swRegistration.sync.register('myFirstSync');
+});})
+*/

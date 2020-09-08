@@ -52,3 +52,26 @@ self.addEventListener('fetch', function (event) {
 self.addEventListener("push", function (event) {
     self.registration.showNotification(event.data.text());
 })
+
+/*
+self.addEventListener('sync', function(event) {
+    console.log("Ok")
+  if (event.tag == 'myFirstSync') {
+    event.waitUntil(doSomeStuff());
+  }
+});
+
+
+function doSomeStuff() {
+    fetch('192/set_user_position')
+      .then(function (response) {
+        return response;
+      })
+      .then(function (text) {
+        console.log('Request successful', text);
+      })
+      .catch(function (error) {
+        console.log('Request failed', error);
+      });
+}
+*/
