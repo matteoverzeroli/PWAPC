@@ -87,14 +87,14 @@
     <div class="container">
         <div class="text-center">
             <h2 class="section-heading text-uppercase">Squadra</h2>
-            <h3 class="section-subheading text-muted" id="team_name"><!--team_name--></h3>
+            <h3 class="section-subheading text-muted team-name">Nome squadra: &nbsp;<!--team_name--></h3>
             <h3 class="section-subheading text-muted text-uppercase" id="team_state"><!--team_state--></h3>
-            <h3 class="section-subheading text-muted" id="team_master"><!--team_state--></h3>
+            <h3 class="section-subheading text-muted team-master">Responsabile: &nbsp;<!--team_master--></h3>
         </div>
         <div class="row">
             <div class="col-lg-4 col-sm-6 mb-4 mx-auto">
                 <div class="portfolio-item">
-                    <a class="portfolio-link" data-toggle="modal" href="#modal1">
+                    <a class="portfolio-link" data-toggle="modal" href="#dettaglisquadra" id="a-team-details">
                         <div class="portfolio-hover">
                             <div class="btn-xl btn-dark text-center text-uppercase">vedi dettagli squadra</div>
                         </div>
@@ -116,8 +116,6 @@
     </div>
 </section>
 
-  <button id="requestButton">Make an HTTP request - do it!</button>
-
 <!-- Operative section-->
 <section class="page-section bg-light" id="section-position">
     <div class="container">
@@ -135,7 +133,9 @@
                 </div>
             </div>
             <div class="col-6">
-                <div class="p-2 text-center"><label for="btn-position" class="text-green" id="label-btn-position-continuos">Avvia condivisione percorso !</label></div>
+                <div class="p-2 text-center"><label for="btn-position" class="text-green"
+                                                    id="label-btn-position-continuos">Avvia condivisione percorso
+                    !</label></div>
                 <div class="p-4 text-center">
                     <button type="button" class="fa-4x" id="btn-position-continuos"><i
                             class="fas fa-map-marked-alt"></i>
@@ -182,7 +182,7 @@
     </div>
 </footer>
 <!-- Portfolio Modals-->
-<!-- Modal 1-->
+<!-- Modal modificautente-->
 <div class="portfolio-modal modal fade" id="modificadatiutente" tabindex="0" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -293,6 +293,33 @@
     </div>
 </div>
 
+<!-- Modal modificautente-->
+<div class="portfolio-modal modal fade" id="dettaglisquadra" tabindex="0" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal"><img
+                    src="{{ url_for('static', filename='assets/img/close-icon.svg') }}" alt="Close modal"/></div>
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="modal-body">
+                            <!-- Project Details Go Here-->
+                            <h2 class="text-uppercase team-name p-2"><!--team_name--></h2>
+                            <p class="text-uppercase team-master p-2">Responsabile: &nbsp;</p>
+                            <label id="arrayMessage"> </label>
+
+                            <button class="btn btn-primary" data-dismiss="modal" type="button">
+                                <i class="fas fa-times mr-1"></i>
+                                Chiudi
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Bootstrap core JS-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
@@ -305,6 +332,8 @@
 <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 <script src="{{ url_for('static', filename='js/notifications.js') }}"></script>
 <script src="{{ url_for('static', filename='js/geolocation.js') }}"></script>
+<script src="{{ url_for('static', filename='js/team_scripts.js') }}"></script>
+
 
 </body>
 </html>

@@ -62,6 +62,9 @@ $(document).ready(function get_user_data() {
     $.ajax({
         method: 'POST',
         url: '/get_user_data',
+        error: function () {
+            alet("Errore nel caricare dati utente (ajax-post-get_user_data)")
+        }
     }).done(set_data)
 })
 
@@ -70,9 +73,21 @@ function set_data(data) {
 
     document.getElementById("user_zone").innerText = "Zona: " + data.zone_data.name;
 
-    document.getElementById("team_name").innerText = "Nome squadra: " + data.team_data.name;
+    if (data.team_data.name == "Nessuna Squadra!") {
+        document.getElementById("a-team-details").style.visibility = "hidden";
+    } else {
+        document.getElementById("a-team-details").style.visibility = "visible";
+    }
+
+    for (i = 0; i < document.getElementsByClassName("team-name").length; i++) {
+        document.getElementsByClassName("team-name")[i].innerText = document.getElementsByClassName("team-name")[i].innerText + data.team_data.name;
+    }
+
     document.getElementById("team_state").innerText = "Stato: " + data.team_data.state;
-    document.getElementById("team_master").innerText = "Responsabile: " + data.team_data.master;
+
+    for (i = 0; i < document.getElementsByClassName("team-master").length; i++) {
+        document.getElementsByClassName("team-master")[i].innerText = document.getElementsByClassName("team-master")[i].innerText + data.team_data.master;
+    }
 
     document.getElementById("user_username").value = data.user_data.username;
     document.getElementById("user_regional_id").value = data.user_data.regional_id;

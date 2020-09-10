@@ -19,7 +19,7 @@ mysql = MySQL(app)
 @app.route('/')
 def index():
     if 'logged_in' in session:
-        if session['logged_in'] == True:
+        if session['logged_in']:
             return redirect(url_for('homepage'))
     else:
         return redirect(url_for('login'))
@@ -28,8 +28,7 @@ def index():
 @app.route('/homepage', methods=['GET'])
 def homepage():
     if 'logged_in' in session:
-        if session['logged_in'] == True:
-
+        if session['logged_in']:
             return render_template('homepage.html')
         else:
             return redirect(url_for('login'))
@@ -55,7 +54,9 @@ def modifica_dati_utente():
 
 @app.route('/service-worker.js')
 def sw():
-    return app.send_static_file('service-worker.js')
+    if 'logged_in' in session:
+        if session['logged_in']:
+            return app.send_static_file('service-worker.js')
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -103,7 +104,7 @@ def get_user_data():
         if session['logged_in']:
             cursor = mysql.connection.cursor()
             cursor.execute(
-                "SELECT Username,MatricolaRegionale,Nome,Cognome,Residenza,Indirizzo,DataNascita,CF,Sesso,Cellulare,Telefono,TelegramUsername,Email,Qualifica,CodiceZona,Ruolo,Stato,Operativo FROM UTENTE WHERE id = %s",
+                "SELECT Username,MatricolaRegionale,Nome,Cognome,Residenza,Indirizzo,DataNascita,CF,Sesso,Cellulare,Telefono,TelegramUsername,Email,Qualifica,CodiceZona,Ruolo,Stato,Operativo FROM UTENTE WHERE Id = %s",
                 [session['user_id']])
             user = cursor.fetchone()
             user_data = {
@@ -150,8 +151,9 @@ def get_user_data():
                 contact_data['telegram'] = squadra[5]
                 contact_data['email'] = squadra[6]
             else:
+                team_data['name'] = "Nessuna Squadra!"
                 team_data['state'] = get_team_state('I')
-                team_data['master'] = "Nessun Responsabile"
+                team_data['master'] = "Nessun Responsabile!"
 
             return jsonify(user_data=user_data, team_data=team_data, zone_data=zone_data, contact_data=contact_data)
         else:
@@ -169,65 +171,103 @@ def get_team_state(stato):
 
 @app.route('/add_user_subscription', methods=["POST"])
 def add_user_subscription():
-    cursor = mysql.connection.cursor()
-    cursor.execute("UPDATE UTENTE SET Subscription =  %s WHERE Id = %s", [json.dumps(request.json), session['user_id']])
-    mysql.connection.commit()
-
-    return ("", 204)
+    if 'logged_in' in session:
+        if session['logged_in']:
+            cursor = mysql.connection.cursor()
+            cursor.execute("UPDATE UTENTE SET Subscription =  %s WHERE Id = %s",
+                           [json.dumps(request.json), session['user_id']])
+            mysql.connection.commit()
+            return ("", 204)
+        else:
+            redirect(url_for('login'))
+    else:
+        redirect(url_for('login'))
 
 
 @app.route('/set_user_operation_status', methods=["POST"])
 def set_user_operation_status():
-    cursor = mysql.connection.cursor()
-    cursor.execute("UPDATE UTENTE SET Operativo =  %s WHERE Id = %s", [request.json['operativo'], session['user_id']])
-    mysql.connection.commit()
+    if 'logged_in' in session:
+        if session['logged_in']:
+            cursor = mysql.connection.cursor()
+            cursor.execute("UPDATE UTENTE SET Operativo =  %s WHERE Id = %s",
+                           [request.json['operativo'], session['user_id']])
+            mysql.connection.commit()
 
-    if request.json['operativo'] == True:
-        send_notification("STATO: OPERATIVO !!!")
+            if request.json['operativo'] == True:
+                send_notification("STATO: OPERATIVO !!!")
+            else:
+                send_notification("STATO: NON OPERATIVO !!!")
+            return ("", 204)
+        else:
+            return redirect(url_for('login'))
     else:
-        send_notification("STATO: NON OPERATIVO !!!")
-
-    return ("", 204)
+        return redirect(url_for('login'))
 
 
 def send_notification(data):
-    cursor = mysql.connection.cursor()
-    cursor.execute("SELECT Subscription FROM UTENTE WHERE Id = %s", [session['user_id']])
-    subscription_info = cursor.fetchone()
+    if 'logged_in' in session:
+        if session['logged_in']:
+            cursor = mysql.connection.cursor()
+            cursor.execute("SELECT Subscription FROM UTENTE WHERE Id = %s", [session['user_id']])
+            subscription_info = cursor.fetchone()
 
-    cursor.execute("SELECT Valore FROM CHIAVE")
-    vapid_private = cursor.fetchone()[0]
+            cursor.execute("SELECT Valore FROM CHIAVE")
+            vapid_private = cursor.fetchone()[0]
 
-    webpush(json.loads(subscription_info[0]),
-            data=data,
-            vapid_private_key=vapid_private,
-            vapid_claims={"sub": "mailto:matteoverzeroli@live.it"})
+            webpush(json.loads(subscription_info[0]),
+                    data=data,
+                    vapid_private_key=vapid_private,
+                    vapid_claims={"sub": "mailto:matteoverzeroli@live.it"})
+        return redirect(url_for('login'))
+    return redirect(url_for('login'))
 
 
 @app.route('/set_user_position', methods=["POST"])
 def set_user_position():
-    pos = {
-        'lat': float(request.json['lat']),
-        'long': float(request.json['long']),
-        'acc': int(request.json['acc']) if request.json['acc'] else None,
-        'alt': int(request.json['alt']) if request.json['alt'] else None,
-        'accalt': int(request.json['accalt']) if request.json['accalt'] else None,
-        'heading': int(request.json['heading']) if request.json['heading'] else None,
-        'speed': int(request.json['speed']) if request.json['speed'] else None,
-        'node': request.json['node'] if request.json['node'] else None
-    }
-    try:
-        cursor = mysql.connection.cursor()
-        cursor.execute(
-            "INSERT INTO POSIZIONE(IdUtente,Latitudine,Longitudine,Accuratezza,Altitudine,AccuratezzaAltitudine,Direzione,Velocita,NodoPercorso) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)",
-            [session['user_id'], pos['lat'], pos['long'], pos['acc'],
-             pos['alt'], pos['accalt'], pos['heading'], pos['speed'],pos['node']])
-        mysql.connection.commit()
+    if 'logged_in' in session:
+        if session['logged_in']:
+            pos = {
+                'lat': float(request.json['lat']),
+                'long': float(request.json['long']),
+                'acc': int(request.json['acc']) if request.json['acc'] else None,
+                'alt': int(request.json['alt']) if request.json['alt'] else None,
+                'accalt': int(request.json['accalt']) if request.json['accalt'] else None,
+                'heading': int(request.json['heading']) if request.json['heading'] else None,
+                'speed': int(request.json['speed']) if request.json['speed'] else None,
+                'node': request.json['node'] if request.json['node'] else None
+            }
+            try:
+                cursor = mysql.connection.cursor()
+                cursor.execute(
+                    "INSERT INTO POSIZIONE(IdUtente,Latitudine,Longitudine,Accuratezza,Altitudine,AccuratezzaAltitudine,Direzione,Velocita,NodoPercorso) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)",
+                    [session['user_id'], pos['lat'], pos['long'], pos['acc'],
+                     pos['alt'], pos['accalt'], pos['heading'], pos['speed'], pos['node']])
+                mysql.connection.commit()
 
-    except Exception as E:
-        print(E)
+            except Exception as Exc:
+                print(Exc)
+                return (str(Exc), 501)
+            return ("", 204)
+        return redirect(url_for('login'))
+    return redirect(url_for('login'))
 
-    return ("", 204)
+@app.route('/get_team_list', methods=["POST"])
+def get_team_list():
+    if 'logged_in' in session:
+        if session['logged_in']:
+            cursor = mysql.connection.cursor()
+            cursor.execute(
+                "SELECT U.Nome,U.Cognome FROM UTENTE U JOIN PARTECIPASQUADRA P ON P.IdUtente = U.Id WHERE IdSquadra = ("
+                "SELECT IdSquadra FROM PARTECIPASQUADRA WHERE IdUtente = %s)",
+                [session['user_id']])
+            user = cursor.fetchall()
+            return jsonify(user)
+        else:
+            return redirect(url_for('login'))
+    else:
+        return redirect(url_for('login'))
+
+
 
 
 if __name__ == '__main__':

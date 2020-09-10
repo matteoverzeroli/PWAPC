@@ -53,7 +53,7 @@ self.addEventListener("push", function (event) {
     self.registration.showNotification(event.data.text());
 })
 
-/*
+/* for sync manager
 self.addEventListener('sync', function(event) {
     console.log("Ok")
   if (event.tag == 'myFirstSync') {

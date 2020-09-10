@@ -15,7 +15,8 @@ if ('serviceWorker' in navigator) {
         });
 }
 
-/*
+
+/* for synch menager
 
  document.getElementById('requestButton').addEventListener('click', () => {
        navigator.serviceWorker.ready.then(function (swRegistration) {
