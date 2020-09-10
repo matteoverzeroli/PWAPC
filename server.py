@@ -260,8 +260,8 @@ def get_team_list():
                 "SELECT U.Nome,U.Cognome FROM UTENTE U JOIN PARTECIPASQUADRA P ON P.IdUtente = U.Id WHERE IdSquadra = ("
                 "SELECT IdSquadra FROM PARTECIPASQUADRA WHERE IdUtente = %s)",
                 [session['user_id']])
-            user = cursor.fetchall()
-            return jsonify(user)
+            team_list = cursor.fetchall()
+            return jsonify(team_list)
         else:
             return redirect(url_for('login'))
     else:

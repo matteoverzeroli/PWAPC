@@ -58,7 +58,7 @@
 
 //author: Matteo Verzeroli
 
-$(document).ready(function get_user_data() {
+$(document).ready(function () {
     $.ajax({
         method: 'POST',
         url: '/get_user_data',
@@ -79,13 +79,13 @@ function set_data(data) {
         document.getElementById("a-team-details").style.visibility = "visible";
     }
 
-    for (i = 0; i < document.getElementsByClassName("team-name").length; i++) {
+    for (let i = 0; i < document.getElementsByClassName("team-name").length; i++) {
         document.getElementsByClassName("team-name")[i].innerText = document.getElementsByClassName("team-name")[i].innerText + data.team_data.name;
     }
 
     document.getElementById("team_state").innerText = "Stato: " + data.team_data.state;
 
-    for (i = 0; i < document.getElementsByClassName("team-master").length; i++) {
+    for (let i = 0; i < document.getElementsByClassName("team-master").length; i++) {
         document.getElementsByClassName("team-master")[i].innerText = document.getElementsByClassName("team-master")[i].innerText + data.team_data.master;
     }
 
