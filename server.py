@@ -278,10 +278,13 @@ def get_operation_info():
                 "SELECT Tipologia,CodiceColore FROM INTERVENTO WHERE IdSquadra = ("
                 "SELECT IdSquadra FROM PARTECIPASQUADRA WHERE IdUtente = %s)",
                 [session['user_id']])
-            operation_info = cursor.fetchone()
-            operation['typology'] = operation_info[0]#considero solo un intervento possibile assegnato alla squadra
-            operation['color'] = operation_info[1]
-            return jsonify(operation_info = operation)
+            operation_info = cursor.fetchone() #considero solo un intervento possibile assegnato alla squadra
+            if operation_info:
+                operation['typology'] = operation_info[0]
+                operation['color'] = operation_info[1]
+                return jsonify(operation_info = operation)
+            else:
+                return jsonify(operation_info = None)
         else:
             return redirect(url_for('login'))
     else:
