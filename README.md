@@ -24,4 +24,8 @@ NELLA TABELLA INTERVENTO:
               'P'->programmato
 ->codicecolore = '3'->rosso
                 '2'->giallo
-                '1'->verde              
+                '1'->verde
+                
+                
+RESTRIZIONI:
+-SI CONSIDERA SOLO UN INTERVENTO ASSEGNATO A UNA SQUADRA              

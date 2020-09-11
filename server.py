@@ -261,12 +261,31 @@ def get_team_list():
                 "SELECT IdSquadra FROM PARTECIPASQUADRA WHERE IdUtente = %s)",
                 [session['user_id']])
             team_list = cursor.fetchall()
-            return jsonify(team_list)
+            return jsonify(team_list = team_list)
         else:
             return redirect(url_for('login'))
     else:
         return redirect(url_for('login'))
 
+
+@app.route('/get_operation_info', methods=["POST"])
+def get_operation_info():
+    if 'logged_in' in session:
+        if session['logged_in']:
+            operation = {} #contains operation info
+            cursor = mysql.connection.cursor()
+            cursor.execute(
+                "SELECT Tipologia,CodiceColore FROM INTERVENTO WHERE IdSquadra = ("
+                "SELECT IdSquadra FROM PARTECIPASQUADRA WHERE IdUtente = %s)",
+                [session['user_id']])
+            operation_info = cursor.fetchone()
+            operation['typology'] = operation_info[0]#considero solo un intervento possibile assegnato alla squadra
+            operation['color'] = operation_info[1]
+            return jsonify(operation_info = operation)
+        else:
+            return redirect(url_for('login'))
+    else:
+        return redirect(url_for('login'))
 
 
 
