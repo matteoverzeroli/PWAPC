@@ -251,6 +251,7 @@ def set_user_position():
         return redirect(url_for('login'))
     return redirect(url_for('login'))
 
+
 @app.route('/get_team_list', methods=["POST"])
 def get_team_list():
     if 'logged_in' in session:
@@ -261,7 +262,7 @@ def get_team_list():
                 "SELECT IdSquadra FROM PARTECIPASQUADRA WHERE IdUtente = %s)",
                 [session['user_id']])
             team_list = cursor.fetchall()
-            return jsonify(team_list = team_list)
+            return jsonify(team_list=team_list)
         else:
             return redirect(url_for('login'))
     else:
@@ -272,24 +273,36 @@ def get_team_list():
 def get_operation_info():
     if 'logged_in' in session:
         if session['logged_in']:
-            operation = {} #contains operation info
+            operation = {}  # contains operation info
             cursor = mysql.connection.cursor()
             cursor.execute(
-                "SELECT Tipologia,CodiceColore FROM INTERVENTO WHERE IdSquadra = ("
-                "SELECT IdSquadra FROM PARTECIPASQUADRA WHERE IdUtente = %s)",
+                "SELECT I.Latitudine,I.Longitudine,I.NomeReferente,I.CognomeReferente,I.TelefonoReferente,I.TipoSegnalazione,"
+                "I.Note,I.MaterialeNecessario,U.Nome,U.Cognome,I.DataInizioIntervento,I.DataFineIntervento,"
+                "I.CodiceColore,I.Tipologia FROM INTERVENTO AS I JOIN UTENTE U ON U.Id = I.IdUtente WHERE I.IdSquadra = ("
+                "SELECT P.IdSquadra FROM PARTECIPASQUADRA AS P WHERE P.IdUtente = %s)",
                 [session['user_id']])
-            operation_info = cursor.fetchone() #considero solo un intervento possibile assegnato alla squadra
+            operation_info = cursor.fetchone()  # considero solo un intervento possibile assegnato alla squadra
             if operation_info:
-                operation['typology'] = operation_info[0]
-                operation['color'] = operation_info[1]
-                return jsonify(operation_info = operation)
+                operation['operation_lat'] = str(operation_info[0])
+                operation['operation_long'] = str(operation_info[1])
+                operation['operation_contact_name'] = operation_info[2]
+                operation['operation_contact_surname'] = operation_info[3]
+                operation['operation_contact_telephone'] = operation_info[4]
+                operation['operation_contact_type'] = operation_info[5]
+                operation['operation_note'] = operation_info[6]
+                operation['operation_materials'] = operation_info[7]
+                operation['operation_manager'] = str(operation_info[8]) + " " + str(operation_info[9])
+                operation['operation_date_start'] = operation_info[10]
+                operation['operation_date_stop'] = operation_info[11]
+                operation['operation_color'] = operation_info[12]
+                operation['operation_typology'] = operation_info[13]
+                return jsonify(operation_info=operation)
             else:
-                return jsonify(operation_info = None)
+                return jsonify(operation_info=None)
         else:
             return redirect(url_for('login'))
     else:
         return redirect(url_for('login'))
-
 
 
 if __name__ == '__main__':

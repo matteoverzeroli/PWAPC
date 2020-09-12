@@ -308,11 +308,39 @@
                             <p class="text-uppercase team-master p-2">Responsabile: &nbsp;</p>
                             <p class="text-uppercase text-muted p-2">Volontari:</p>
                             <div class="table-responsive table-bordered table-hover p-3" id="team-list"></div>
-                            <div class="operation-elements">
+                            <div class="operation-elements bg-light">
                                 <h1 class="text-uppercase p-4 text-break">Intervento</h1>
-                                <h3 class="text-break p-2" id="operation-typology"><!--operation_typology--></h3>
-                                <h3 class="text-break p-2" id="operation-color"><!--operation_color--></h3>
+                                <h3 class="text-break p-2" id="operation_typology"><!--operation_typology--></h3>
+                                <h3 class="text-break p-2" id="operation_color"><!--operation_color--></h3>
+                                <p class="p-2" id="operation_contact_name"><!--contact_name--></p>
+                                <p class="p-2" id="operation_contact_surname"><!--contact_surname--></p>
+                                <label for="operation_contact_telephone">Numero telefono referente: </label>
+                                <input type="tel" class="p-2" id="operation_contact_telephone" readonly>
+                                <!--operation_contact_telefone--></input>
+                                <p class="p-3" id="operation_contact_type"><!--operation_type--></p>
+                                <div class="form-group">
+                                    <label for="operation_note">Note: </label>
+                                    <textarea class="form-control p-2" id="operation_note" readonly>
+                                    <!--operation_note--></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="operation_materials">Materiali necessari: </label>
+                                    <textarea class="form-control p-2" id="operation_materials" readonly>
+                                    <!--operation_materials--></textarea>
+                                </div>
+                                <p class="p-2" id="operation_manager"><!--operation_manager--></p>
+                                <div class="form-group">
+                                    <label for="operation_date_start">Data inizio intervento:</label>
+                                    <input type="datetime-local" class="p-2" id="operation_date_start" readonly>
+                                    <!--operation_date_start--></input>
+                                </div>
+                                <div class="form-group">
+                                    <label for="operation_date_stop">Data fine intervento:</label>
+                                    <input type="datetime-local" class="p-2" id="operation_date_stop" readonly>
+                                    <!--operation_date_stop--></input>
+                                </div>
                             </div>
+
                             <button class="btn btn-primary" data-dismiss="modal" type="button">
                                 <i class="fas fa-times mr-1"></i>
                                 Chiudi
