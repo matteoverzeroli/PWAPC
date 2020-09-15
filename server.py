@@ -261,7 +261,7 @@ def get_team_list():
             cursor = mysql.connection.cursor()
             cursor.execute(
                 "SELECT U.Nome,U.Cognome FROM UTENTE U JOIN PARTECIPASQUADRA P ON P.IdUtente = U.Id WHERE IdSquadra = ("
-                "SELECT IdSquadra FROM PARTECIPASQUADRA WHERE IdUtente = %s)",
+                "SELECT P.IdSquadra FROM PARTECIPASQUADRA AS P JOIN SQUADRA AS S ON P.IdSquadra = S.Id WHERE P.IdUtente = %s AND S.Stato <> 'E')",
                 [session['user_id']])
             team_list = cursor.fetchall()
             return jsonify(team_list=team_list)
@@ -281,7 +281,7 @@ def get_operation_info():
                 "SELECT I.Latitudine,I.Longitudine,I.NomeReferente,I.CognomeReferente,I.TelefonoReferente,I.TipoSegnalazione,"
                 "I.Note,I.MaterialeNecessario,U.Nome,U.Cognome,I.DataInizioIntervento,I.DataFineIntervento,"
                 "I.CodiceColore,I.Tipologia FROM INTERVENTO AS I JOIN UTENTE U ON U.Id = I.IdUtente WHERE I.IdSquadra = ("
-                "SELECT P.IdSquadra FROM PARTECIPASQUADRA AS P WHERE P.IdUtente = %s)",
+                "SELECT P.IdSquadra FROM PARTECIPASQUADRA AS P JOIN SQUADRA AS S ON P.IdSquadra = S.Id WHERE P.IdUtente = %s AND S.Stato <> 'E')",
                 [session['user_id']])
             operation_info = cursor.fetchone()  # considero solo un intervento possibile assegnato alla squadra
             if operation_info:
