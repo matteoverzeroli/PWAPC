@@ -75,7 +75,31 @@ function set_operation_info(data) {
         document.getElementById("operation_date_start").value = new Date(data.operation_info.operation_date_start).toISOString().slice(0, 19);
 
         document.getElementById("operation_date_stop").value = new Date(data.operation_info.operation_date_stop).toISOString().slice(0, 19);
-
+        initMap(data.operation_info.operation_lat, data.operation_info.operation_long);
     }
 
 }
+
+// MAPS API FOR OPERATION POSITION
+
+var map = L.map('operation-map')
+
+//to handle problem of rendering
+setInterval(function () {
+    map.invalidateSize();
+}, 100);
+
+function initMap(lat, long) {
+    map.setView([parseFloat(lat), parseFloat(long)], 13);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    L.marker([parseFloat(lat), parseFloat(long)]).addTo(map)
+        .bindPopup('<a id="popout">Intervento</a>')
+        .openPopup();
+    document.getElementById("popout").href = "https://www.google.com/maps/search/" + lat + "," + long;
+}
+
+
+

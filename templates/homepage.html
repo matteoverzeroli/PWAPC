@@ -21,6 +21,12 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css"/>
     <!-- Core theme CSS (includes Bootstrap)-->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_homepage.css') }}"/>
+
+    <!--Leaflet CSS file-->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+          integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+          crossorigin=""/>
+
 </head>
 <body id="page-top">
 <!-- Navigation-->
@@ -305,11 +311,14 @@
                         <div class="modal-body">
                             <!-- Project Details Go Here-->
                             <h2 class="text-uppercase team-name p-2 text-break"><!--team_name--></h2>
-                            <p class="text-uppercase team-master p-2">Responsabile: &nbsp;</p>
+                            <span>
+                            <p class="text-uppercase text-muted">Responsabile:</p>
+                            <p class="text-uppercase team-master"></p>
+                            </span>
                             <p class="text-uppercase text-muted p-2">Volontari:</p>
                             <div class="table-responsive table-bordered table-hover p-3" id="team-list"></div>
                             <div class="operation-elements bg-light">
-                                <h1 class="text-uppercase p-4 text-break">Intervento</h1>
+                                <h3 class="text-uppercase p-4 text-break">Intervento</h3>
                                 <h3 class="text-break p-2" id="operation_typology"><!--operation_typology--></h3>
                                 <h3 class="text-break p-2" id="operation_color"><!--operation_color--></h3>
                                 <p class="p-2" id="operation_contact_name"><!--contact_name--></p>
@@ -340,6 +349,8 @@
                                     <!--operation_date_stop--></input>
                                 </div>
                             </div>
+                            <h3>Luogo intervento:</h3>
+                            <div id="operation-map" class="map"></div>
 
                             <button class="btn btn-primary" data-dismiss="modal" type="button">
                                 <i class="fas fa-times mr-1"></i>
@@ -362,6 +373,13 @@
 <script src="{{ url_for('static', filename='js/scripts_homepage.js') }}"></script>
 
 <!--App script author:Matteo Verzeroli-->
+
+<!--Leaflet JavaScript file -->
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+        integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+        crossorigin=""></script>
+
+
 <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 <script src="{{ url_for('static', filename='js/notifications.js') }}"></script>
 <script src="{{ url_for('static', filename='js/geolocation.js') }}"></script>

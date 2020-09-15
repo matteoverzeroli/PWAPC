@@ -1,3 +1,4 @@
+from datetime import datetime
 from flask import Flask, render_template, request, session, flash, redirect, url_for, jsonify
 from flask_mysqldb import MySQL
 import json
@@ -229,6 +230,7 @@ def set_user_position():
             pos = {
                 'lat': float(request.json['lat']),
                 'long': float(request.json['long']),
+                'date': datetime.strptime(str(request.json['date']),"%d/%m/%Y, %H:%M:%S"),
                 'acc': int(request.json['acc']) if request.json['acc'] else None,
                 'alt': int(request.json['alt']) if request.json['alt'] else None,
                 'accalt': int(request.json['accalt']) if request.json['accalt'] else None,
@@ -239,8 +241,8 @@ def set_user_position():
             try:
                 cursor = mysql.connection.cursor()
                 cursor.execute(
-                    "INSERT INTO POSIZIONE(IdUtente,Latitudine,Longitudine,Accuratezza,Altitudine,AccuratezzaAltitudine,Direzione,Velocita,NodoPercorso) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)",
-                    [session['user_id'], pos['lat'], pos['long'], pos['acc'],
+                    "INSERT INTO POSIZIONE(IdUtente,DataInvio,Latitudine,Longitudine,Accuratezza,Altitudine,AccuratezzaAltitudine,Direzione,Velocita,NodoPercorso) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",
+                    [session['user_id'],pos['date'], pos['lat'], pos['long'], pos['acc'],
                      pos['alt'], pos['accalt'], pos['heading'], pos['speed'], pos['node']])
                 mysql.connection.commit()
 

@@ -12,7 +12,7 @@ var geo_options = {
 function set_pos_object(position, node) {
     var pos = {};
     pos['lat'] = position.coords.latitude;
-    pos['long'] = position.coords.latitude;
+    pos['long'] = position.coords.longitude;
 
     position.coords.accuracy = pos['acc'] = position.coords.accuracy;
     position.coords.altitude = pos['alt'] = position.coords.altitude;
@@ -21,7 +21,9 @@ function set_pos_object(position, node) {
     position.coords.speed = pos['speed'] = position.coords.speed;
 
     pos['node'] = node;
-
+    pos['date'] = new Date().toLocaleString('it-IT', {
+        hour12: false,
+    });
     return pos;
 }
 
@@ -140,4 +142,4 @@ function send_my_position_continuos() {
     }
 }
 
-
+//todo da sistemare con local storage per lo stato della condivisione dopo che ho chiuso l'app

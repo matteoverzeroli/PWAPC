@@ -47,6 +47,7 @@ CREATE TABLE IF NOT EXISTS PARTECIPASQUADRA(
 CREATE TABLE IF NOT EXISTS POSIZIONE(
                 IdUtente INT UNSIGNED,
                 DataRicezione TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+                DataInvio TIMESTAMP NOT NULL,
                 Latitudine DECIMAL(10,8) NOT NULL,
                 Longitudine DECIMAL(11,8) NOT NULL,
                 Accuratezza INT DEFAULT NULL,
@@ -65,7 +66,7 @@ CREATE TABLE IF NOT EXISTS INTERVENTO(
                 NomeReferente VARCHAR(50) NOT NULL,
                 CognomeReferente VARCHAR(50),
                 TelefonoReferente VARCHAR(20),
-                TipoSegnalazione VARCHAR(20),
+                TipoSegnalazione VARCHAR(20) NOT NULL,
                 Note TINYTEXT,
                 MaterialeNecessario TINYTEXT,
                 IdUtente INT UNSIGNED NOT NULL, /*UTENTE CHE HA INSERITO LA SEGNALAZIONE*/

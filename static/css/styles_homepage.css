@@ -10417,6 +10417,7 @@ a.text-info:hover, a.text-info:focus {
 .text-warning {
     color: #fed136 !important;
 }
+
 .text-green {
     color: #34ce57 !important;
 }
@@ -10603,8 +10604,8 @@ p {
     padding: 6rem 0;
 }
 
-.page-section-first{
-    padding-top: 7rem ;
+.page-section-first {
+    padding-top: 7rem;
     padding-bottom: 0rem;
 }
 
@@ -11186,19 +11187,24 @@ section#contact form#contactForm :-ms-input-placeholder {
 }
 
 .responsive-iframe-container {
-position: relative;
-padding-bottom: 56.25%;
-padding-top: 30px;
-height: 0;
-overflow: hidden;
+    position: relative;
+    padding-bottom: 56.25%;
+    padding-top: 30px;
+    height: 0;
+    overflow: hidden;
 }
 
 .responsive-iframe-container iframe,
 .vresponsive-iframe-container object,
 .vresponsive-iframe-container embed {
-position: absolute;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.map {
+    width: 100%;
+    height: 500px;
 }
