@@ -2,7 +2,9 @@ from datetime import datetime
 from flask import Flask, render_template, request, session, flash, redirect, url_for, jsonify
 from flask_mysqldb import MySQL
 import json
+import os
 from pywebpush import webpush
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 
@@ -11,6 +13,10 @@ app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = 'database'
 app.config['MYSQL_DB'] = 'database'
+
+# configuration for images uploaded
+app.config['IMAGE_UPLOADS'] = 'C:\\Users\\matte\\Desktop\\PWAPC\\static\\image_operation_upload'
+app.config["ALLOWED_IMAGE_EXTENSIONS"] = ["JPEG", "JPG", "PNG", "GIF"]
 
 app.secret_key = 'yoursecretkey '  # TODO to be changed
 
@@ -230,7 +236,7 @@ def set_user_position():
             pos = {
                 'lat': float(request.json['lat']),
                 'long': float(request.json['long']),
-                'date': datetime.strptime(str(request.json['date']),"%d/%m/%Y, %H:%M:%S"),
+                'date': datetime.strptime(str(request.json['date']), "%d/%m/%Y, %H:%M:%S"),
                 'acc': int(request.json['acc']) if request.json['acc'] else None,
                 'alt': int(request.json['alt']) if request.json['alt'] else None,
                 'accalt': int(request.json['accalt']) if request.json['accalt'] else None,
@@ -242,7 +248,7 @@ def set_user_position():
                 cursor = mysql.connection.cursor()
                 cursor.execute(
                     "INSERT INTO POSIZIONE(IdUtente,DataInvio,Latitudine,Longitudine,Accuratezza,Altitudine,AccuratezzaAltitudine,Direzione,Velocita,NodoPercorso) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",
-                    [session['user_id'],pos['date'], pos['lat'], pos['long'], pos['acc'],
+                    [session['user_id'], pos['date'], pos['lat'], pos['long'], pos['acc'],
                      pos['alt'], pos['accalt'], pos['heading'], pos['speed'], pos['node']])
                 mysql.connection.commit()
 
@@ -305,6 +311,45 @@ def get_operation_info():
             return redirect(url_for('login'))
     else:
         return redirect(url_for('login'))
+
+#todo da sistemare
+@app.route('/upload_operation_image', methods=["POST"])
+def upload_operation_image():
+    if 'logged_in' in session:
+        if session['logged_in']:
+            if request.files:
+                images = request.files.getlist('image')
+                for image in images:
+                    if image.filename == "":
+                        return ("", 406)
+
+                    if allowed_image(image.filename):
+                        filename = secure_filename(image.filename)
+                        image.save(os.path.join(app.config["IMAGE_UPLOADS"], filename))
+
+                    else:
+                        print("That file extension is not allowed")
+                        return ("", 406)
+
+                    return ("", 201)
+
+        else:
+            return redirect(url_for('login'))
+    else:
+        return redirect(url_for('login'))
+
+
+#todo da sistemare
+def allowed_image(filename):
+    if not "." in filename:
+        return False
+
+    ext = filename.rsplit(".", 1)[1]
+
+    if ext.upper() in app.config["ALLOWED_IMAGE_EXTENSIONS"]:
+        return True
+    else:
+        return False
 
 
 if __name__ == '__main__':

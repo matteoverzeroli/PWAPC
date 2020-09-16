@@ -357,6 +357,20 @@
                             <h3>Luogo intervento:</h3>
                             <div id="operation-map" class="map"></div>
 
+                            <!--todo test upload image-->
+
+                            <form action="/upload_operation_image" method="POST" enctype="multipart/form-data">
+
+                                <label for="image">Seleziona immagine da caricare: </label>
+                                <div class="form-group">
+                                    <input type="file"
+                                           id="image" name="image"
+                                           accept="image/jpeg, image/jpg, image/png, image/gif" multiple>
+
+                                    <button type="submit" class="btn btn-primary">Upload</button>
+                                </div>
+                            </form>
+
                             <button class="btn btn-primary" data-dismiss="modal" type="button">
                                 <i class="fas fa-times mr-1"></i>
                                 Chiudi
@@ -390,7 +404,6 @@
 <script src="{{ url_for('static', filename='js/geolocation.js') }}"></script>
 <script src="{{ url_for('static', filename='js/scripts_team.js') }}"></script>
 <script src="{{ url_for('static', filename='js/scripts_operation.js') }}"></script>
-
 
 </body>
 </html>
