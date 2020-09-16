@@ -17,6 +17,9 @@ app.config['MYSQL_DB'] = 'database'
 # configuration for images uploaded
 app.config['IMAGE_UPLOADS'] = 'C:\\Users\\matte\\Desktop\\PWAPC\\static\\image_operation_upload'
 app.config["ALLOWED_IMAGE_EXTENSIONS"] = ["JPEG", "JPG", "PNG", "GIF"]
+#todo control max size
+app.config["MAX_IMAGE_FILESIZE"] = 50 * 1024 * 1024 #50MB maximum size of file upload to the server
+
 
 app.secret_key = 'yoursecretkey '  # TODO to be changed
 
