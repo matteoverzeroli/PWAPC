@@ -74,7 +74,9 @@ CREATE TABLE IF NOT EXISTS INTERVENTO(
                 DataInizioIntervento TIMESTAMP,
                 DataFineIntervento TIMESTAMP,
                 CodiceColore TINYINT NOT NULL,
-                Tipologia CHAR NOT NULL);
+                Tipologia CHAR NOT NULL,
+				Stato CHAR NOT NULL DEFAULT 'A' 
+);
 
 CREATE TABLE IF NOT EXISTS FOTO(
               Id INT UNSIGNED AUTO_INCREMENT,

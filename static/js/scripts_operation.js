@@ -12,9 +12,9 @@ function get_operation_info() {
 function set_operation_info(data) {
 
     if (data.operation_info == null) {
-        document.getElementsByClassName("operation-elements").style = "hidden";
+        document.getElementById("operation-elements").style.display = "none";
     } else {
-        document.getElementsByClassName("operation-elements").style = "visible";
+        document.getElementById("operation-elements").style.display = "block";
 
         if (data.operation_info.operation_typology == 'E') {
             document.getElementById("operation_typology").innerText = "Tipologia intervento: Emergenza";
@@ -75,7 +75,15 @@ function set_operation_info(data) {
         document.getElementById("operation_date_start").value = new Date(data.operation_info.operation_date_start).toISOString().slice(0, 19);
 
         document.getElementById("operation_date_stop").value = new Date(data.operation_info.operation_date_stop).toISOString().slice(0, 19);
+
         initMap(data.operation_info.operation_lat, data.operation_info.operation_long);
+
+        if (document.getElementById("btn-operative").value == "1") {
+            document.getElementById("image-upload").style.display = "block";
+        } else {
+            document.getElementById("image-upload").style.display = "none";
+        }
+
     }
 
 }

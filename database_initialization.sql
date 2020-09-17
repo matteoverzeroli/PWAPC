@@ -4,5 +4,5 @@ INSERT INTO UTENTE(Username,Password,MatricolaRegionale,Nome,Cognome,Residenza,I
 INSERT INTO SQUADRA(NomeSquadra,IdResponsabile,Stato) VALUES ('Nomesquadra','1','A');
 INSERT INTO PARTECIPASQUADRA(IdSquadra,IdUtente) VALUES ('1','1');
 INSERT INTO INTERVENTO(Latitudine,Longitudine,IdSquadra,NomeReferente,CognomeReferente,TelefonoReferente,TipoSegnalazione,
-Note,MaterialeNecessario, IdUtente,DataInizioIntervento,DataFineIntervento,CodiceColore,Tipologia) 
-                VALUES (45.83583820,45.83583820,1,'Gianno','vanni','+3925255','chiamata','ciao come stai','motosega',1,'2020/05/05 12:00','2020/05/05 13:00',3,'E');
+Note,MaterialeNecessario, IdUtente,DataInizioIntervento,DataFineIntervento,CodiceColore,Tipologia,Stato) 
+                VALUES (45.83583820,10.01961390,1,'Gianno','vanni','+3925255','chiamata','ciao come stai','motosega',1,'2020/05/05 12:00','2020/05/05 13:00',3,'E','I');

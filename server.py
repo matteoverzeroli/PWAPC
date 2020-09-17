@@ -17,9 +17,8 @@ app.config['MYSQL_DB'] = 'database'
 # configuration for images uploaded
 app.config['IMAGE_UPLOADS'] = 'C:\\Users\\matte\\Desktop\\PWAPC\\static\\image_operation_upload'
 app.config["ALLOWED_IMAGE_EXTENSIONS"] = ["JPEG", "JPG", "PNG", "GIF"]
-#todo control max size
-app.config["MAX_IMAGE_FILESIZE"] = 50 * 1024 * 1024 #50MB maximum size of file upload to the server
 
+app.config["MAX_IMAGE_FILESIZE"] = 50 * 1024 * 1024  # 50MB maximum size of file upload to the server (error 413)
 
 app.secret_key = 'yoursecretkey '  # TODO to be changed
 
@@ -290,7 +289,7 @@ def get_operation_info():
                 "SELECT I.Latitudine,I.Longitudine,I.NomeReferente,I.CognomeReferente,I.TelefonoReferente,I.TipoSegnalazione,"
                 "I.Note,I.MaterialeNecessario,U.Nome,U.Cognome,I.DataInizioIntervento,I.DataFineIntervento,"
                 "I.CodiceColore,I.Tipologia FROM INTERVENTO AS I JOIN UTENTE U ON U.Id = I.IdUtente WHERE I.IdSquadra = ("
-                "SELECT P.IdSquadra FROM PARTECIPASQUADRA AS P JOIN SQUADRA AS S ON P.IdSquadra = S.Id WHERE P.IdUtente = %s AND S.Stato <> 'E')",
+                "SELECT P.IdSquadra FROM PARTECIPASQUADRA AS P JOIN SQUADRA AS S ON P.IdSquadra = S.Id WHERE P.IdUtente = %s AND S.Stato <> 'E') AND I.Stato = 'A'",
                 [session['user_id']])
             operation_info = cursor.fetchone()  # considero solo un intervento possibile assegnato alla squadra
             if operation_info:
@@ -315,36 +314,34 @@ def get_operation_info():
     else:
         return redirect(url_for('login'))
 
-#todo da sistemare
+
+# todo da sistemare
 @app.route('/upload_operation_image', methods=["POST"])
 def upload_operation_image():
     if 'logged_in' in session:
         if session['logged_in']:
             if request.files:
                 images = request.files.getlist('image')
-                for image in images:
-                    if image.filename == "":
-                        return ("", 406)
 
-                    if allowed_image(image.filename):
+                for image in images:
+                    if control_image(image.filename):
                         filename = secure_filename(image.filename)
                         image.save(os.path.join(app.config["IMAGE_UPLOADS"], filename))
-
                     else:
-                        print("That file extension is not allowed")
-                        return ("", 406)
-
-                    return ("", 201)
-
+                        return ("Il nome/estensione file non è consentito", 406)
+                return ("", 201)
+            else:
+                return redirect(request.url)
         else:
             return redirect(url_for('login'))
     else:
         return redirect(url_for('login'))
 
 
-#todo da sistemare
-def allowed_image(filename):
-    if not "." in filename:
+def control_image(filename):
+    if "." not in filename:
+        return False
+    elif filename == "":
         return False
 
     ext = filename.rsplit(".", 1)[1]

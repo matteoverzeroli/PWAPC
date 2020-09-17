@@ -322,7 +322,7 @@
                             </span>
                             <p class="text-uppercase text-muted p-2">Volontari:</p>
                             <div class="table-responsive table-bordered table-hover p-3" id="team-list"></div>
-                            <div class="operation-elements bg-light">
+                            <div class="bg-light" id="operation-elements">
                                 <h3 class="text-uppercase p-4 text-break">Intervento</h3>
                                 <h3 class="text-break p-2" id="operation_typology"><!--operation_typology--></h3>
                                 <h3 class="text-break p-2" id="operation_color"><!--operation_color--></h3>
@@ -353,23 +353,27 @@
                                     <input type="datetime-local" class="p-2" id="operation_date_stop" readonly>
                                     <!--operation_date_stop--></input>
                                 </div>
-                            </div>
-                            <h3>Luogo intervento:</h3>
-                            <div id="operation-map" class="map"></div>
 
-                            <!--todo test upload image-->
+                                <h3>Luogo intervento:</h3>
+                                <div id="operation-map" class="map"></div>
 
-                            <form action="/upload_operation_image" method="POST" enctype="multipart/form-data">
-
-                                <label for="image">Seleziona immagine da caricare: </label>
-                                <div class="form-group">
-                                    <input type="file"
-                                           id="image" name="image"
-                                           accept="image/jpeg, image/jpg, image/png, image/gif" multiple>
-
-                                    <button type="submit" class="btn btn-primary">Upload</button>
+                                <div id="image-upload">
+                                    <form action="/upload_operation_image" method="POST" enctype="multipart/form-data">
+                                        <div class="form-group">
+                                            <label for="image" class="text-muted">Seleziona immagine da
+                                                caricare: </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="file"
+                                                   id="image" name="image"
+                                                   accept="image/jpeg, image/jpg, image/png, image/gif" multiple>
+                                        </div>
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-info">Carica</button>
+                                        </div>
+                                    </form>
                                 </div>
-                            </form>
+                            </div>
 
                             <button class="btn btn-primary" data-dismiss="modal" type="button">
                                 <i class="fas fa-times mr-1"></i>
