@@ -60,15 +60,16 @@ CREATE TABLE IF NOT EXISTS POSIZIONE(
                 
 CREATE TABLE IF NOT EXISTS INTERVENTO(
 				Id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+                Indirizzo VARCHAR(50) NOT NULL,
 				Latitudine DECIMAL(10,8) NOT NULL,
                 Longitudine DECIMAL(11,8) NOT NULL,
                 IdSquadra INT UNSIGNED,
-                NomeReferente VARCHAR(50) NOT NULL,
-                CognomeReferente VARCHAR(50),
-                TelefonoReferente VARCHAR(20),
+                NomeRichiedente VARCHAR(50) NOT NULL,
+                CognomeRichiedente VARCHAR(50),
+                TelefonoRichiedente VARCHAR(20),
                 TipoSegnalazione VARCHAR(20) NOT NULL,
-                Note TINYTEXT,
-                MaterialeNecessario TINYTEXT,
+                Note TEXT,
+                MaterialeNecessario TEXT,
                 IdUtente INT UNSIGNED NOT NULL, /*UTENTE CHE HA INSERITO LA SEGNALAZIONE*/
                 DataRicezione TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
                 DataInizioIntervento TIMESTAMP,
@@ -82,7 +83,7 @@ CREATE TABLE IF NOT EXISTS FOTO(
               Id INT UNSIGNED AUTO_INCREMENT,
               IdIntervento INT UNSIGNED,
               IdUtente INT UNSIGNED NOT NULL, /*UTENTE CHE HA INSERITO LA SEGNALAZIONE*/
-              Foto BLOB NOT NULL,
+              Foto VARCHAR(255) NOT NULL, /*PATH FOTO*/
               DataRicezione TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
               PRIMARY KEY (Id,IdIntervento));
               
@@ -90,7 +91,7 @@ CREATE TABLE IF NOT EXISTS REPORT(
               Id INT UNSIGNED AUTO_INCREMENT,
               IdIntervento INT UNSIGNED,
               IdUtente INT UNSIGNED NOT NULL, /*UTENTE CHE HA INSERITO LA SEGNALAZIONE*/
-              Report BLOB NOT NULL,
+              Report VARCHAR(255) NOT NULL, /*PATH REPORT*/
 			  DataRicezione TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
               PRIMARY KEY (Id,IdIntervento));
 

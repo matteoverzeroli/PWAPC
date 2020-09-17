@@ -328,7 +328,7 @@
                                 <h3 class="text-break p-2" id="operation_color"><!--operation_color--></h3>
                                 <p class="p-2" id="operation_contact_name"><!--contact_name--></p>
                                 <p class="p-2" id="operation_contact_surname"><!--contact_surname--></p>
-                                <label for="operation_contact_telephone">Numero telefono referente: </label>
+                                <label for="operation_contact_telephone">Numero telefono Richiedente: </label>
                                 <input type="tel" class="p-2" id="operation_contact_telephone" readonly>
                                 <!--operation_contact_telefone--></input>
                                 <p class="p-3" id="operation_contact_type"><!--operation_type--></p>
@@ -355,10 +355,15 @@
                                 </div>
 
                                 <h3>Luogo intervento:</h3>
-                                <div id="operation-map" class="map"></div>
+                                <div id="operation-map" class="map p-2"></div>
 
-                                <div id="image-upload">
-                                    <form action="/upload_operation_image" method="POST" enctype="multipart/form-data">
+                                <div>
+
+                                </div>
+
+                                <div id="image-upload" class="p-2">
+                                    <form action="/upload_operation_image" method="POST" enctype="multipart/form-data"
+                                    id="formuploadimage" name="formuploadimage">
                                         <div class="form-group">
                                             <label for="image" class="text-muted">Seleziona immagine da
                                                 caricare: </label>
@@ -369,7 +374,7 @@
                                                    accept="image/jpeg, image/jpg, image/png, image/gif" multiple>
                                         </div>
                                         <div class="form-group">
-                                            <button type="submit" class="btn btn-info">Carica</button>
+                                            <button class="btn btn-info" id="btn-upload-operation-image">Carica</button>
                                         </div>
                                     </form>
                                 </div>

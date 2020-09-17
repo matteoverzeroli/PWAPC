@@ -286,26 +286,27 @@ def get_operation_info():
             operation = {}  # contains operation info
             cursor = mysql.connection.cursor()
             cursor.execute(
-                "SELECT I.Latitudine,I.Longitudine,I.NomeReferente,I.CognomeReferente,I.TelefonoReferente,I.TipoSegnalazione,"
+                "SELECT I.Indirizzo,I.Latitudine,I.Longitudine,I.NomeRichiedente,I.CognomeRichiedente,I.TelefonoRichiedente,I.TipoSegnalazione,"
                 "I.Note,I.MaterialeNecessario,U.Nome,U.Cognome,I.DataInizioIntervento,I.DataFineIntervento,"
                 "I.CodiceColore,I.Tipologia FROM INTERVENTO AS I JOIN UTENTE U ON U.Id = I.IdUtente WHERE I.IdSquadra = ("
                 "SELECT P.IdSquadra FROM PARTECIPASQUADRA AS P JOIN SQUADRA AS S ON P.IdSquadra = S.Id WHERE P.IdUtente = %s AND S.Stato <> 'E') AND I.Stato = 'A'",
                 [session['user_id']])
             operation_info = cursor.fetchone()  # considero solo un intervento possibile assegnato alla squadra
             if operation_info:
-                operation['operation_lat'] = str(operation_info[0])
-                operation['operation_long'] = str(operation_info[1])
-                operation['operation_contact_name'] = operation_info[2]
-                operation['operation_contact_surname'] = operation_info[3]
-                operation['operation_contact_telephone'] = operation_info[4]
-                operation['operation_contact_type'] = operation_info[5]
-                operation['operation_note'] = operation_info[6]
-                operation['operation_materials'] = operation_info[7]
-                operation['operation_manager'] = str(operation_info[8]) + " " + str(operation_info[9])
-                operation['operation_date_start'] = operation_info[10]
-                operation['operation_date_stop'] = operation_info[11]
-                operation['operation_color'] = operation_info[12]
-                operation['operation_typology'] = operation_info[13]
+                operation['operation_address'] = str(operation_info[0])
+                operation['operation_lat'] = str(operation_info[1])
+                operation['operation_long'] = str(operation_info[2])
+                operation['operation_contact_name'] = operation_info[3]
+                operation['operation_contact_surname'] = operation_info[4]
+                operation['operation_contact_telephone'] = operation_info[5]
+                operation['operation_contact_type'] = operation_info[6]
+                operation['operation_note'] = operation_info[7]
+                operation['operation_materials'] = operation_info[8]
+                operation['operation_manager'] = str(operation_info[9]) + " " + str(operation_info[10])
+                operation['operation_date_start'] = operation_info[11]
+                operation['operation_date_stop'] = operation_info[12]
+                operation['operation_color'] = operation_info[13]
+                operation['operation_typology'] = operation_info[14]
                 return jsonify(operation_info=operation)
             else:
                 return jsonify(operation_info=None)
@@ -315,21 +316,34 @@ def get_operation_info():
         return redirect(url_for('login'))
 
 
-# todo da sistemare
 @app.route('/upload_operation_image', methods=["POST"])
 def upload_operation_image():
     if 'logged_in' in session:
         if session['logged_in']:
             if request.files:
                 images = request.files.getlist('image')
-
+                list_images_not_allowed = []
                 for image in images:
                     if control_image(image.filename):
                         filename = secure_filename(image.filename)
                         image.save(os.path.join(app.config["IMAGE_UPLOADS"], filename))
+                        # query di inserimento path
+                        try: #todo da completare
+                            cursor = mysql.connection.cursor()
+                            cursor.execute(
+                                "INSERT INTO INTERVENTO() VALUES ()",
+                                [session['user_id']])
+                            mysql.connection.commit()
+
+                        except Exception as Exc:
+                            print(Exc)
+                            return (str(Exc), 501)
                     else:
-                        return ("Il nome/estensione file non è consentito", 406)
-                return ("", 201)
+                        list_images_not_allowed.append(image.filename)
+                if len(list_images_not_allowed) != 0:
+                    return ("Il nome/estensione file non è consentito", 406)
+                else:
+                    return ("Immagini caricate", 201)
             else:
                 return redirect(request.url)
         else:
