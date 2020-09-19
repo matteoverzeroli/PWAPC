@@ -88,31 +88,52 @@ function set_operation_info(data) {
 
 // MAPS API FOR OPERATION POSITION
 
-var map = L.map('operation-map')
+var map = L.map('operation-map');
+var markers = [];
 
 //to handle problem of rendering
 setInterval(function () {
     map.invalidateSize();
 }, 100);
 
-function initMap(lat, long, address) {
+//to set map view
+function setup_map(lat,long,address) {
     map.setView([parseFloat(lat), parseFloat(long)], 13);
-    if (!this.markers) {
+
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
-        this.markers = L.marker([parseFloat(lat), parseFloat(long)]).addTo(map)
+
+        let marker = L.marker([parseFloat(lat), parseFloat(long)]).addTo(map)
             .bindPopup('<a id="popout"></a>')
             .openPopup();
+
+        markers.push(marker);
+
+        document.getElementById("popout").innerText = address;
+        document.getElementById("popout").href = "https://www.google.com/maps/search/" + lat + "," + long;
+}
+
+function initMap(lat, long, address) {
+
+    if (markers.length === 0) {
+
+        setup_map(lat,long,address)
+
+
+    } else if (markers[0].getLatLng()['lat'] != lat || markers[0].getLatLng()['lng'] != long) {
+        map.removeLayer(markers[0]);
+        markers.pop();
+
+        setup_map(lat,long);
     }
-    document.getElementById("popout").innerText = address;
-    document.getElementById("popout").href = "https://www.google.com/maps/search/" + lat + "," + long;
 }
 
 
 //UPLOAD IMAGES
-document.getElementById("btn-upload-operation-image").addEventListener("click",send_form_upload_operation_images);
-//todo da completare
-function send_form_upload_operation_images(){
+document.getElementById("btn-upload-operation-image").addEventListener("click", send_form_upload_operation_images);
+
+//todo da completare serialize
+function send_form_upload_operation_images() {
     $("#form_modificadatiutente").submit();
 }
