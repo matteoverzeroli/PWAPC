@@ -16,6 +16,8 @@ function set_operation_info(data) {
     } else {
         document.getElementById("operation-elements").style.display = "block";
 
+        document.getElementById("operation-id").value = data.operation_info.operation_id;
+
         if (data.operation_info.operation_typology == 'E') {
             document.getElementById("operation_typology").innerText = "Tipologia intervento: Emergenza";
         } else if (data.operation_info.operation_typology == 'P') {
@@ -97,43 +99,43 @@ setInterval(function () {
 }, 100);
 
 //to set map view
-function setup_map(lat,long,address) {
+function setup_map(lat, long, address) {
     map.setView([parseFloat(lat), parseFloat(long)], 13);
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
 
-        let marker = L.marker([parseFloat(lat), parseFloat(long)]).addTo(map)
-            .bindPopup('<a id="popout"></a>')
-            .openPopup();
+    let marker = L.marker([parseFloat(lat), parseFloat(long)]).addTo(map)
+        .bindPopup('<a id="popout"></a>')
+        .openPopup();
 
-        markers.push(marker);
+    markers.push(marker);
 
-        document.getElementById("popout").innerText = address;
-        document.getElementById("popout").href = "https://www.google.com/maps/search/" + lat + "," + long;
+    document.getElementById("popout").innerText = address;
+    document.getElementById("popout").href = "https://www.google.com/maps/search/" + lat + "," + long;
 }
 
 function initMap(lat, long, address) {
 
     if (markers.length === 0) {
 
-        setup_map(lat,long,address)
+        setup_map(lat, long, address)
 
 
     } else if (markers[0].getLatLng()['lat'] != lat || markers[0].getLatLng()['lng'] != long) {
         map.removeLayer(markers[0]);
         markers.pop();
 
-        setup_map(lat,long);
+        setup_map(lat, long);
     }
 }
-
 
 //UPLOAD IMAGES
 document.getElementById("btn-upload-operation-image").addEventListener("click", send_form_upload_operation_images);
 
-//todo da completare serialize
 function send_form_upload_operation_images() {
     $("#form_modificadatiutente").submit();
 }
+
+

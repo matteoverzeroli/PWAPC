@@ -357,13 +357,9 @@
                                 <h3>Luogo intervento:</h3>
                                 <div id="operation-map" class="map p-2"></div>
 
-                                <div>
-
-                                </div>
-
                                 <div id="image-upload" class="p-2">
                                     <form action="/upload_operation_image" method="POST" enctype="multipart/form-data"
-                                    id="formuploadimage" name="formuploadimage">
+                                          id="formuploadimage" name="formuploadimage">
                                         <div class="form-group">
                                             <label for="image" class="text-muted">Seleziona immagine da
                                                 caricare: </label>
@@ -373,6 +369,7 @@
                                                    id="image" name="image"
                                                    accept="image/jpeg, image/jpg, image/png, image/gif" multiple>
                                         </div>
+                                        <input type="hidden" id="operation-id" name="operation-id">
                                         <div class="form-group">
                                             <button class="btn btn-info" id="btn-upload-operation-image">Carica</button>
                                         </div>

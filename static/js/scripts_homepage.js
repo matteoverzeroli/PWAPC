@@ -64,8 +64,9 @@ $(document).ready(function () {
         url: '/get_user_data',
         error: function () {
             alet("Errore nel caricare dati utente (ajax-post-get_user_data)")
-        }
-    }).done(set_data)
+        },
+        success: set_data
+    })
 })
 
 function set_data(data) {

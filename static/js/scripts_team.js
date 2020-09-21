@@ -1,7 +1,7 @@
 //listener on click of dettagli squadra button
 document.getElementById("a-team-details").addEventListener("click", () => {
         get_team_data();
-        get_operation_info();
+        get_operation_info()
     }
 );
 

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content="Homepage"/>
+    <meta name="author" content="Matteo Vezeroli"/>
+    <title>Immagini</title>
+    <link rel="icon" sizes="96x96" href="{{ url_for('static', filename='images/icon-96.png') }}">
+
+</head>
+<body>
+{%for image in photolist %}
+<img src="{{url_for('/static/image_operation_upload',filename = image)}}">
+{% endfor %}
+</body>
+</html>
