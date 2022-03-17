@@ -1,31 +1,5 @@
 # PWAPC
 
-PROJECT FOR PROTEZIONE CIVILE APP 
+Progetto di una progressive web app a scopo dimostrativo utilizzando Flask.
 
-SQL TABLE
-NELLA TABELLA UTENTE IL CAMPO OPERATIVO è UN BOOLEANO:
-0->FALSE ->UTENTE NON OPERATIVO
-1->TRUE ->UTENTE OPERATIVO
-
-NELLA TABELLA POSIZIONE SI E' IN GRADO DI SALVARE LE POSIZIONI
-INVIATE DAL CLIENT:
-L'ATTRIBUTO NODO PERCORSO E' UN CHAR I CUI VALORI POSSONO
-ESSERE:
--> 'I'->INIZIO PERCORSO
--> 'C'->CONTINUAZIONE PERCORSO
--> 'F'->FINE PERCORSO
--> NULL -> POSIZIONE SINGOLA
-
-NELLA TABELLA SQUDRA E INTERVENTO LO STATO PUO ESSERE:
-/*I = inattiva, A = attiva, E = eliminata*/
-
-NELLA TABELLA INTERVENTO:
-->tipologia= 'E'-> emergenza
-              'P'->programmato
-->codicecolore = '3'->rosso
-                '2'->giallo
-                '1'->verde
-                
-                
-RESTRIZIONI:
--SI CONSIDERA SOLO UN INTERVENTO ASSEGNATO A UNA SQUADRA              
+Sistema per la gestione di squadre della protezione civile.
